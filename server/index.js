@@ -3,7 +3,11 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var yelp = require('./yelpHelp');
+// <<<<<<< 4bd53468d1d30e60bae0406e82116cff22d06f66
 var sass = require('node-sass-endpoint');
+// =======
+var sass = require('node-sass-endpoint')
+// >>>>>>> initial folder structure for scss
 //
 // Get Postgres rolling.
 //
@@ -86,7 +90,13 @@ yelp.getFoodByZip(78701)
 routes.get('/app-bundle.js',
   browserify('./client/app.js'));
 
+// <<<<<<< 4bd53468d1d30e60bae0406e82116cff22d06f66
 routes.get('/css/app-bundle.css', sass.serve('./client/public/scss/app.scss'));
+// =======
+routes.get('/css/app-bundle.css',
+  sass.serve('./client/public/scss/app.scss'))
+
+// >>>>>>> initial folder structure for scss
 //
 // Match endpoint to match movie genres with cuisines
 //
