@@ -3,11 +3,15 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var yelp = require('./yelpHelp');
+<<<<<<< HEAD
 // <<<<<<< 4bd53468d1d30e60bae0406e82116cff22d06f66
 var sass = require('node-sass-endpoint');
 // =======
 var sass = require('node-sass-endpoint')
 // >>>>>>> initial folder structure for scss
+=======
+var sass = require('node-sass-endpoint')
+>>>>>>> working_on_sass
 //
 // Get Postgres rolling.
 //
@@ -90,6 +94,7 @@ yelp.getFoodByZip(78701)
 routes.get('/app-bundle.js',
   browserify('./client/app.js'));
 
+<<<<<<< HEAD
 // <<<<<<< 4bd53468d1d30e60bae0406e82116cff22d06f66
 routes.get('/css/app-bundle.css', sass.serve('./client/public/scss/app.scss'));
 // =======
@@ -97,6 +102,11 @@ routes.get('/css/app-bundle.css',
   sass.serve('./client/public/scss/app.scss'))
 
 // >>>>>>> initial folder structure for scss
+=======
+routes.get('/css/app-bundle.css',
+  sass.serve('./client/public/scss/app.scss'))
+
+>>>>>>> working_on_sass
 //
 // Match endpoint to match movie genres with cuisines
 //
