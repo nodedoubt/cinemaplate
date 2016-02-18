@@ -4,9 +4,26 @@
 
 #container {
 	background-color: $body_bg;
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    left: 0px; 
+    top: 0px; 
+    z-index: -1;
+
 }
 
-.topBar {
+body:after {
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 86px;
+    bottom: 0;
+    left: 50%;
+    border-left: 4px solid #3d3d3d;
+}
+
+.navigation {
 	color: white;
     list-style-type: none;
     margin: 0;
@@ -31,7 +48,7 @@ li {
 
 .topLine {
   background: black;
-  border: 0.5px solid black;
+  border: 2px solid black;
   }
 
 .midLine {
@@ -41,10 +58,16 @@ li {
 
 .netflix {
     background-color: #f8e71c;
+    position: relative;
+    top: 60px;
+    left: -200px;
   }
 
 .order {
     background-color: #f8e71c;
+	position: relative;
+	top: 60px;
+	right: -150px;
   }
 
 

@@ -2,19 +2,17 @@
 
 <div id='container'>
   <nav class='navigation'>
-<ul class ='topBar'>
   <li><h2>CinemaPlate</h2></li>
   <ul style="float:right;list-style-type:none;">
     <li><a href='#about'>ABOUT</a></li>
     <li><a href='#share'>SHARE</a></li>
   </ul>
-</ul>
 </nav>
 
   <div class ='topLine'></div>
 
 <!-- <div class='masterList' ng-repeat='movie in movies'> -->
-
+<ul style="list-style-type:none;">
   <li><strong>Title</strong></li>
 	<div class="title">{{ movie.movie_title }}</div>
 
@@ -33,7 +31,7 @@
   <li><strong>Actor</strong></li>
 	<div class="actors">{{ movie.movie_actors}}</div>
 <!-- </div> -->
-
+</ul>
 
   <div class ='midLine'></div>
   <button type="button" class="netflix">Add To Netflix Queue</button>
