@@ -31,6 +31,12 @@ body:after {
     background-color: $primary_accent;
 }
 
+.blackBar {
+    background-color: black;
+    list-style-type: none;
+    color: white;
+}
+
 .movieRate {
 	border: 1px dotted #CCC;
 	overflow: visible;
