@@ -2,11 +2,10 @@
 @import 'skeleton';
 @import 'variables';
 
+<<<<<<< HEAD
 body {
   background-color: $primary_accent;
 }
-
-
 
 .svg-container {
   width: 325px;
@@ -51,3 +50,221 @@ body {
 }
 
 
+#container {
+    background-color: $body_bg;
+=======
+#container {
+	background-color: $body_bg;
+>>>>>>> working_on_sass
+    width: 100%; 
+    height: 100%; 
+    position: fixed; 
+    left: 0px; 
+    top: 0px; 
+    z-index: -1;
+}
+
+<<<<<<< HEAD
+#container:after {
+=======
+body:after {
+>>>>>>> working_on_sass
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 86px;
+    bottom: 0;
+    left: 50%;
+    border-left: 4px solid #3d3d3d;
+}
+
+.navigation {
+<<<<<<< HEAD
+    color: white;
+=======
+	color: white;
+>>>>>>> working_on_sass
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: $primary_accent;
+}
+
+<<<<<<< HEAD
+.movieRate {
+    border: 1px dotted #CCC;
+    overflow: visible;
+    padding: 10px;
+    position: absolute;
+    left: 300px;
+    width: 180px;
+    height: 32px;
+}
+
+.foodRate {
+    border: 1px dotted #CCC;
+    overflow: visible;
+    padding: 10px;
+    position: absolute;
+    left: 800px;
+    width: 180px;
+    height: 32px;
+}
+
+.ratings_stars {
+    background: url('../img/star_empty.png') no-repeat;
+    float: left;
+    height: 28px;
+    padding: 2px;
+    width: 32px;
+}
+
+.ratings_vote {
+    background: url('../img/star_full.png') no-repeat;
+}
+
+.ratings_over {
+    background: url('../img/star_highlight.png') no-repeat;
+=======
+.blackBar {
+    background-color: black;
+    list-style-type: none;
+    color: white;
+}
+
+.movieRate {
+	border: 1px dotted #CCC;
+	overflow: visible;
+	padding: 10px;
+	position: absolute;
+	left: 300px;
+	width: 180px;
+	height: 32px;
+}
+
+.foodRate {
+	border: 1px dotted #CCC;
+	overflow: visible;
+	padding: 10px;
+	position: absolute;
+	left: 800px;
+	width: 180px;
+	height: 32px;
+}
+
+.ratings_stars {
+	background: url('../img/star_empty.png') no-repeat;
+	float: left;
+	height: 28px;
+	padding: 2px;
+	width: 32px;
+}
+
+.ratings_vote {
+	background: url('../img/star_full.png') no-repeat;
+}
+
+.ratings_over {
+	background: url('../img/star_highlight.png') no-repeat;
+>>>>>>> working_on_sass
+}
+
+
+.movie_choice {
+<<<<<<< HEAD
+    font: 10px verdana, sans-serif;
+    margin: 0 auto 40px auto;
+    width: 180px;
+}
+
+h1 {
+    text-align: center;
+    width: 400px;
+    margin: 20px auto;
+=======
+	font: 10px verdana, sans-serif;
+	margin: 0 auto 40px auto;
+	width: 180px;
+}
+
+h1 {
+	text-align: center;
+	width: 400px;
+	margin: 20px auto;
+>>>>>>> working_on_sass
+}
+
+li {
+    float: left;
+    a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px 40px;
+    text-decoration: none;
+<<<<<<< HEAD
+        &:hover {
+        background-color: #111;
+        }
+    }
+=======
+		&:hover {
+    	background-color: #111;
+		}
+	}
+>>>>>>> working_on_sass
+}
+
+.topLine {
+  background: black;
+  border: 2px solid black;
+  }
+
+.midLine {
+  background: black;
+  border: 2px solid black;
+  }
+
+.netflix {
+    background-color: #f8e71c;
+    border-style: solid;
+    border-color: black;
+    position: relative;
+    top: 60px;
+    left: -250px;
+<<<<<<< HEAD
+    width: 300px;
+    height: 38px;
+=======
+	width: 300px;
+	height: 38px;
+>>>>>>> working_on_sass
+  }
+
+.order {
+    background-color: #f8e71c;
+    border-style: solid;
+    border-color: black;
+<<<<<<< HEAD
+    position: relative;
+    top: 60px;
+    left: -100;
+    width: 300px;
+    height: 38px;
+=======
+	position: relative;
+	top: 60px;
+	left: -100;
+	width: 300px;
+	height: 38px;
+>>>>>>> working_on_sass
+
+  }
+
+
+<<<<<<< HEAD
+
+
+=======
+>>>>>>> working_on_sass
