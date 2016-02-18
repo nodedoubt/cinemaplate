@@ -3,6 +3,7 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var yelp = require('./yelpHelp');
+var sass = require('node-sass-endpoint')
 //
 // Get Postgres rolling.
 //
@@ -84,6 +85,9 @@ yelp.getFoodByZip(78701)
 //
 routes.get('/app-bundle.js',
   browserify('./client/app.js'));
+
+routes.get('/css/app-bundle.css',
+  sass.serve('./client/public/scss/app.scss'))
 
 //
 // Match endpoint to match movie genres with cuisines
