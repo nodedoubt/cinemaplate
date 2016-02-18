@@ -1,3 +1,50 @@
 @import 'normalize';
 @import 'skeleton';
 @import 'variables';
+
+#container {
+	background-color: $body_bg;
+}
+
+.topBar {
+	color: white;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: $primary_accent;
+}
+
+li {
+    float: left;
+    a {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 10px 40px;
+    text-decoration: none;
+		&:hover {
+    	background-color: #111;
+		}
+	}
+}
+
+.topLine {
+  background: black;
+  border: 0.5px solid black;
+  }
+
+.midLine {
+  background: black;
+  border: 2px solid black;
+  }
+
+.netflix {
+    background-color: #f8e71c;
+  }
+
+.order {
+    background-color: #f8e71c;
+  }
+
+
