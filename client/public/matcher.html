@@ -9,7 +9,37 @@
   </ul>
 </nav>
 
-  <div class ='topLine'></div>
+
+
+	<div class ='topLine'></div>
+
+	<span class="movieRating">
+
+<div class='movie_choice'>
+    IMDB Rating:
+    <div class="movieRate">
+        <div class="star_1 ratings_stars"></div>
+        <div class="star_2 ratings_stars"></div>
+        <div class="star_3 ratings_stars"></div>
+        <div class="star_4 ratings_stars"></div>
+        <div class="star_5 ratings_stars"></div>
+    </div>
+</div>
+
+<div class='food_choice'>
+	Yelp Rating:
+    <div class="foodRate">
+        <div class="star_1 ratings_stars"></div>
+        <div class="star_2 ratings_stars"></div>
+        <div class="star_3 ratings_stars"></div>
+        <div class="star_4 ratings_stars"></div>
+        <div class="star_5 ratings_stars"></div>
+    </div>
+</div>
+
+
+
+
 
 <!-- <div class='masterList' ng-repeat='movie in movies'> -->
 <ul style="list-style-type:none;">
@@ -23,19 +53,19 @@
 	<div class="rating">{{ movie.movie_rating }}</div>
 
   <li><strong>Release Year</strong></li>
-	<div class="releaseYear">{{ movie.movie_release_year}}</div>
+	<div class="releaseYear">{{ movie.movie_release_year }}</div>
 
   <li><strong>Director</strong></li>
-	<div class="director">{{ movie.movie_director}}</div>
+	<div class="director">{{ movie.movie_director }}</div>
 
   <li><strong>Actor</strong></li>
-	<div class="actors">{{ movie.movie_actors}}</div>
+	<div class="actors">{{ movie.movie_actors }}</div>
 <!-- </div> -->
 </ul>
 
   <div class ='midLine'></div>
-  <button type="button" class="netflix">Add To Netflix Queue</button>
-  <button type="button" class="order">Place An Order</button>
+  <button type="button" class="netflix" autocapitalize="none">Add To Netflix Queue</button>
+  <button type="button" class="order" autocapitalize="none">Place An Order</button>
   <div class ="reload"></div>
 
 </ul>
