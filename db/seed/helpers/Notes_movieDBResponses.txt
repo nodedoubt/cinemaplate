@@ -1,0 +1,70 @@
+MovieDB - Tv vs. Movie api response comparison:
+
+
+
+TV OBJECT:
+
+    {
+      "poster_path": "/dg7NuKDjmS6OzuNy33qt8kSkPA1.jpg",
+      "popularity": 2.887342,
+      "id": 1438,
+      "backdrop_path": "/4hWfYN3wiOZZXC7t6B70BF9iUvk.jpg",
+      "vote_average": 7.67,
+      "overview": "The Wire is an American television crime drama series set and produced in and around Baltimore, Maryland. Each season of The Wire introduces a different facet of the city of Baltimore. In chronological order they are: the illegal drug trade, the seaport system, the city government and bureaucracy, the school system, and the print news media.\n\nDespite only receiving average ratings and never winning major television awards, The Wire has been described by many critics and fans as one of the greatest TV dramas of all time. The show is recognized for its realistic portrayal of urban life, its literary ambitions, and its uncommonly deep exploration of sociopolitical themes.",
+      "first_air_date": "2002-06-02",
+      "origin_country": [
+        "US"
+      ],
+      "genre_ids": [
+        9648,
+        80,
+        18
+      ],
+      "original_language": "en",
+      "vote_count": 75,
+      "name": "The Wire",
+      "original_name": "The Wire"
+    }
+
+
+MOVIE OBJECT:
+
+ {
+      "poster_path": "/gc7IN6bWNaWXv4vI6cxSmeB7PeO.jpg",
+      "adult": false,
+      "overview": "As U.S. troops storm the beaches of Normandy, three brothers lie dead on the battlefield, with a fourth trapped behind enemy lines. Ranger captain John Miller and seven men are tasked with penetrating German-held territory and bringing the boy home.",
+      "release_date": "1998-07-24",
+      "genre_ids": [
+        18,
+        36,
+        10752
+      ],
+      "id": 857,
+      "original_title": "Saving Private Ryan",
+      "original_language": "en",
+      "title": "Saving Private Ryan",
+      "backdrop_path": "/4y5TDUZlqUmWWtjTAznWb6CFpzt.jpg",
+      "popularity": 4.831015,
+      "vote_count": 2619,
+      "video": false,
+      "vote_average": 7.6
+    }
+
+
+
+
+    TV, not movies:
+
+   	- first_air_date
+   	- origin_country
+   	- name (not "title")
+   	- original name (not "original title")
+
+
+   	Movies, not TV:
+
+   	- adult
+   	- release_date (not first_air_date)
+   	- original_title (not original_name)
+   	- title (not name)
+   	- video
