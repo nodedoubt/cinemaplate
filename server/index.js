@@ -40,12 +40,14 @@ routes.get('/api/match/:zip', function(req, res) {
 
   var combinedResult = {};
   var pgClient = new pg.Client(pgConString);
+  
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });
   restaurantQuery.on('end', function(result) {
     combinedResult.restaurant = result.rows[0];
   });
+
   var movieQuery = pgClient.query("SELECT * FROM movies order by random() limit 1", function(err, result){
     return result;
   });

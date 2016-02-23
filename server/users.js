@@ -1,59 +1,55 @@
-var   Q    = require('q'); //promises
-var   jwt  = require('jwt-simple'); //JSON webToken encoding and decoding tool
+var Promise = require('bluebird')
+var jwt = require('jwt-simple'); //JSON webToken encoding and decoding tool
 var pg = require('pg');
-var   SALT_WORK_FACTOR  = 10;
+var bcrypt = require('bcrypt-as-promised');
+var SALT_WORK_FACTOR  = 10;
 
-
-exports.signin = function(req, res, next){
-	var username = req.body.username;
-	var password = req.body.password;
+exports.signin = function(req, res){
+  var username = req.body.username;
+  var password = req.body.password;
 }
 
-exports.signup = function(req, res, next){
-	var username = req.body.username;
-	var password = req.body.password;
-	var location = req.body.location;
-	var email = req.body.email;
+exports.signup = function(req, res){
+  var pgClient = new pg.Client(pgConString)
+  var username = req.body.username;
+  var password = req.body.password;
+  var location = req.body.location;
+  var email = req.body.email;
 
-	//first check if the username is taken already
+  //first check if the username is taken already
+  var found = findUser(username)
 
+  if (found.length > 0){
+    res.status(400).send("Username already exists")
+  }
+  else {
+    bcrypt.hash(password, 10).then(function(hashed){
+      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" username + "," hashed + "," location + "," + email + ")")
+    })
+    .then(function(result){
+      console.log('result from db user insert')
+      res.status(201).send("User created")
+    })
+  }
+
+  pgClient.on('drain', function() {
+    pgClient.end();
+  });
+  pgClient.connect()
 }
 
 exports.checkAuth = function(){
 
 }
 
-exports.comparePasswords = function(){
-  
-}
+var findUser = function(username){
+  var userSearch = pgClient.query("SELECT username FROM users WHERE username = " + username, function(err, result){
+    return result;
+  })
+  userSearch.on('end', function(result){
+    console.log('result of findUser ', result)
+    return result
+  })
+};
 
-exports.checkUsername = function(username){
-	pgClient.query("SELECT username FROM users WHERE username = " + username, function(err, result){
-		return result;
-	})
-}
 
-
- var username = req.body.username,
-        password = req.body.password;
-
-    var findUser = Q.nbind(User.findOne, User);
-    findUser({username: username})
-      .then(function (user) {
-        if (!user) {
-          next(new Error('User does not exist'));
-        } else {
-          return user.comparePasswords(password)
-            .then(function(foundUser) {
-              if (foundUser) {
-                var token = jwt.encode(user, 'secret');
-                res.json({token: token});
-              } else {
-                return next(new Error('No user'));
-              }
-            });
-        }
-      })
-      .fail(function (error) {
-        next(error);
-      });
