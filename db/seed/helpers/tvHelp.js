@@ -2,9 +2,9 @@ var rp = require('request-promise');
 var Promise = require('bluebird');
 var tv = module.exports;
 
-//I perform a title query in the movie db 
-//Note - this will not return matches for TV shows included in the reddit results - that is a separate endpoint
-//Non-matches are filtered out.  
+//Queries the movieDb for TV shows.
+//Note - this will not return matches for MOVIES included in the reddit results - that is a separate endpoint 
+//handled in movieHelp.js. Non-matches are filtered out.  
 tv.getMovieDB_Tv = function(redditObj){
 
     var anObject = {},
@@ -13,7 +13,7 @@ tv.getMovieDB_Tv = function(redditObj){
     len;
     
     //the below allows for quick object lookup to verify that movieDB result matches the actual title from the reddit scrape
-    var titlesArray = redditObj.forEach(function(obj){ //is the titlesArray variable at all necessary here? (JW-Legacy)
+    redditObj.forEach(function(obj){
         anObject[obj.title] = obj.url;
     })
     
@@ -23,7 +23,7 @@ tv.getMovieDB_Tv = function(redditObj){
     len = arr.length;
 
     //build array for Promise.all
-    //TODO - use bluebird's Promise.map instead
+    //TODO - use bluebird's Promise.map instead (This won't make a difference for user experience, so it will remain TODO. - JW-legacy)
     for(var x = 0; x < len; x++){
         var escaped = escape(arr[x].title);
         allCalls.push(rp('http://api.themoviedb.org/3/search/tv?query=' + escaped + '&api_key=' + process.env.MOVIEDB_TOKEN))
@@ -36,12 +36,12 @@ tv.getMovieDB_Tv = function(redditObj){
                     var show = JSON.parse(obj);
                     //if no match, movieDB will return empty results array 
                     //anObject verifies that title is an exact match, since movieDB will match on any words
-                    //i.e. search for 'Fight Club' will return results including 'Zombie Fight Club'
+                    //i.e. search for 'The Walking Dead' may return results including 'The Talking Dead: Making of The Walking Dead'
                     return show.results.length !== 0 && anObject[show.results[0].name];
                 })    
             })
             .then(function(res){
-                //build the movie super object for SQL insertion
+                //build the tvShow super object for SQL insertion
                 return res.map(function(obj){
                    var show = JSON.parse(obj);
                    var currShow = show.results[0];
