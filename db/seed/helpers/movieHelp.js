@@ -45,6 +45,7 @@ movie.getMovieDB = function(redditObj){
                 return res.map(function(obj){
                    var movie = JSON.parse(obj);
                    var currMovie = movie.results[0];
+                   //TODO: api call with currMovie.id to grab a trailer url, pack trailer url into MOVIE SUPER OBJECT as "trailer"
                    return {title: currMovie.title, 
                            summary: currMovie.overview, 
                            url: anObject[currMovie.title],
@@ -57,3 +58,4 @@ movie.getMovieDB = function(redditObj){
             })
              
 }
+
