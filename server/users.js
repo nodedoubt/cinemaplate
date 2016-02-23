@@ -1,30 +1,31 @@
 var Promise = require('bluebird')
-var jwt = require('jwt-simple'); //JSON webToken encoding and decoding tool
 var pg = require('pg');
+var pgClient = require('./db.js');
 var bcrypt = require('bcrypt-as-promised');
 var SALT_WORK_FACTOR  = 10;
+var uuid = require('uuid')
 
 exports.signin = function(req, res){
   var username = req.body.username;
   var password = req.body.password;
   var user = findUser(username)
 
-  if (user.length > 0){
-    res.status(400).send("Username or Password Incorrect")
-  } else {
-    bcrypt.compare(password, user.password)
-    .then(function(){
-      //send to session maker
-    })
-    .catch(bcrypt.MISMATCH_ERROR, function(){
+  user.on('end', function(){
+    if (user.length > 0){
       res.status(400).send("Username or Password Incorrect")
-    })
-  }
-
+    } else {
+      bcrypt.compare(password, user.password)
+      .then(function(){
+        createSession(user)
+      })
+      .catch(bcrypt.MISMATCH_ERROR, function(){
+        res.status(400).send("Username or Password Incorrect")
+      })
+    }
+  }) 
 }
 
 exports.signup = function(req, res){
-  var pgClient = new pg.Client(pgConString)
   var username = req.body.username;
   var password = req.body.password;
   var location = req.body.location;
@@ -45,11 +46,6 @@ exports.signup = function(req, res){
       res.status(201).send("User created")
     })
   }
-
-  pgClient.on('drain', function() {
-    pgClient.end();
-  });
-  pgClient.connect()
 }
 
 exports.checkAuth = function(){
@@ -66,4 +62,7 @@ var findUser = function(username){
   })
 };
 
+var createSession = function(user){
+  var sessionId = uuid();
+}
 
