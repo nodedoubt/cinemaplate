@@ -55,7 +55,8 @@ CREATE TABLE IF NOT EXISTS "users" (
   "user_id" SERIAL PRIMARY KEY,
   "username" varchar(255) NOT NULL UNIQUE,
   "password" varchar(255) NOT NULL,
-  "location" varchar(255)
+  "location" varchar(255),
+  "email" varchar(255) NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS "userCombos" (
@@ -64,4 +65,9 @@ CREATE TABLE IF NOT EXISTS "userCombos" (
   "movie_id" INTEGER REFERENCES "movies",
   "tv_id" INTEGER REFERENCES "tv",
   UNIQUE (user_id, restaurant_id, movie_id, tv_id)
+);
+
+CREATE TABLE IF NOT EXISTS "userSessions" (
+  "user_id" INTEGER REFERENCES "users" ("user_id"),
+  "session_id" INTEGER NOT NULL UNIQUE
 );
