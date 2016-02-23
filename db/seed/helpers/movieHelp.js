@@ -26,7 +26,7 @@ movie.getMovieDB = function(redditObj){
     //TODO - use bluebird's Promise.map instead
     for(var x = 0; x < len; x++){
         var escaped = escape(arr[x].title);
-        allCalls.push(rp('http://api.themoviedb.org/3/search/movie?query=' + escaped + '&api_key=' + process.env.MOVIEDB_TOKEN))
+        allCalls.push(rp('http://api.themoviedb.org/3/search/movie?query=' + escaped + '&api_key=' + "6ea18d4ba61a68cf421247f58e6fba10"))
     }
     
     return Promise.all(allCalls)

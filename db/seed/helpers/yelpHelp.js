@@ -3,10 +3,10 @@ var Yelp = require('node-yelp')
 
 var client = Yelp.createClient({
   oauth: {
-    "consumer_key": process.env.YELP_CONSUMER_KEY,
-    "consumer_secret": process.env.YELP_CONSUMER_SECRET,
-    "token": process.env.YELP_TOKEN,
-    "token_secret": process.env.YELP_TOKEN_SECRET
+    "consumer_key": "TpfzwEpdFcwWy-t35AZ9nA",
+    "consumer_secret": "GeALTFrJl6XwECfad5VgOBdNJnQ",
+    "token": "DrFxvk5AU026jNUWnnuF7u28Z7rYOrtM",
+    "token_secret":   "bCZgOKvOhZcGCNgcB4EC76Ue6nU"
   }
 });
 

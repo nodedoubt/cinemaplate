@@ -3,6 +3,8 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var sass = require('node-sass-endpoint');
+require('../db/seed/seedMovie.js')
+require('../db/seed/seedRestaurant.js')
 
 //
 // Get Postgres rolling.
@@ -11,9 +13,9 @@ var pgConString = '';
 if (process.env.NODE_ENV !== 'production') {
   // If trying to connect to DB remotely (ie, dev environment)
   // we need to add the ssl flag.
-  pgConString = process.env.DATABASE_URL + '?ssl=true';
+  pgConString = process.env.DATABASE_URL + '?ssl=false';
 } else {
-  pgConString = process.env.DATABASE_URL;
+  pgConString = "postgres://user:pass@localhost/cinemaDB";
 }
 
 var routes = express.Router();
