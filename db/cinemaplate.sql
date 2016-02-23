@@ -67,3 +67,8 @@ CREATE TABLE IF NOT EXISTS "userCombos" (
   "tv_id" INTEGER REFERENCES "tv",
   UNIQUE (user_id, restaurant_id, movie_id, tv_id)
 );
+
+CREATE TABLE IF NOT EXISTS "userSessions" (
+  "user_id" INTEGER REFERENCES "users" ("user_id"),
+  "session_id" INTEGER NOT NULL UNIQUE
+);
