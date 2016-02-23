@@ -24,15 +24,14 @@ CREATE TABLE IF NOT EXISTS "movies" (
 );
 
 CREATE TABLE IF NOT EXISTS "tv" (
-  "tv_id" SERIAL NOT NULL,
+  "tv_id" SERIAL NOT NULL PRIMARY KEY,
   "tv_title" VARCHAR(255) NOT NULL UNIQUE,
   "tv_summary" TEXT NOT NULL,
   "tv_url" TEXT,
   "tv_image_url" TEXT,
   "tv_rating" DECIMAL,
   "tv_release_date" DATE,
-  "tv_genres" VARCHAR(255),
-  CONSTRAINT movies_pk PRIMARY KEY ("tv_id")
+  "tv_genres" VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS "restaurants" (
