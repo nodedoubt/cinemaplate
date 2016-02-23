@@ -5,6 +5,9 @@ var pg = require('pg');
 var sass = require('node-sass-endpoint');
 var User = require('./users.js');
 var pgClient = require('./db.js');
+var session = ('./sessions.js')
+var cookieParser = require('cookie-parser')
+
 //
 // Get Postgres rolling.
 //
@@ -17,7 +20,22 @@ if (process.env.NODE_ENV !== 'production') {
   pgConString = process.env.DATABASE_URL;
 }
 
-var routes = express.Router();
+var routes = app.Router();
+
+app.use(cookieParser());
+
+app.use(function (req, res, next) {
+  if (req.cookies.sessionId) {
+    session.findSession(req.cookies.sessionId)
+      .then(function(session) {
+        req.session = session;
+        next();
+      });
+  } else {
+    // No session to fetch; just continue
+    next();
+  }
+})
 
 //
 // Provide a browserified file at a specified path
@@ -35,9 +53,7 @@ routes.get('/api/match/:zip', function(req, res) {
   var zip = req.params.zip;
   // Get first 3 zip digits for SQL "like" query.
   var slimZip = zip.slice(0,3);
-
   var combinedResult = {};
-  
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });

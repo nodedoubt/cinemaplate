@@ -2,8 +2,7 @@ var Promise = require('bluebird')
 var pg = require('pg');
 var pgClient = require('./db.js');
 var bcrypt = require('bcrypt-as-promised');
-var SALT_WORK_FACTOR  = 10;
-var uuid = require('uuid')
+var sessions = require('./sessions.js')
 
 exports.signin = function(req, res){
   var username = req.body.username;
@@ -16,7 +15,10 @@ exports.signin = function(req, res){
     } else {
       bcrypt.compare(password, user.password)
       .then(function(){
-        createSession(user)
+        var newSession = sessions.createSession(user)
+        newSession.on('end', function(result){
+          res.status(200).send()
+        })
       })
       .catch(bcrypt.MISMATCH_ERROR, function(){
         res.status(400).send("Username or Password Incorrect")
@@ -39,7 +41,7 @@ exports.signup = function(req, res){
   }
   else {
     bcrypt.hash(password, 10).then(function(hashed){
-      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" username + "," hashed + "," location + "," + email + ")")
+      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" username + ", " hashed + ", " location + ", " + email + ")")
     })
     .then(function(result){
       console.log('result from db user insert')
@@ -48,8 +50,8 @@ exports.signup = function(req, res){
   }
 }
 
-exports.checkAuth = function(){
-
+exports.checkAuth = function(req, res){
+  sessions.findSession()
 }
 
 var findUser = function(username){
@@ -62,7 +64,5 @@ var findUser = function(username){
   })
 };
 
-var createSession = function(user){
-  var sessionId = uuid();
-}
+
 
