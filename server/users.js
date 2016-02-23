@@ -7,6 +7,20 @@ var SALT_WORK_FACTOR  = 10;
 exports.signin = function(req, res){
   var username = req.body.username;
   var password = req.body.password;
+  var user = findUser(username)
+
+  if (user.length > 0){
+    res.status(400).send("Username or Password Incorrect")
+  } else {
+    bcrypt.compare(password, user.password)
+    .then(function(){
+      //send to session maker
+    })
+    .catch(bcrypt.MISMATCH_ERROR, function(){
+      res.status(400).send("Username or Password Incorrect")
+    })
+  }
+
 }
 
 exports.signup = function(req, res){
@@ -43,7 +57,7 @@ exports.checkAuth = function(){
 }
 
 var findUser = function(username){
-  var userSearch = pgClient.query("SELECT username FROM users WHERE username = " + username, function(err, result){
+  var userSearch = pgClient.query("SELECT * FROM users WHERE username = " + username, function(err, result){
     return result;
   })
   userSearch.on('end', function(result){
