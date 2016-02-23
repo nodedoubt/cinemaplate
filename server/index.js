@@ -3,6 +3,7 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var sass = require('node-sass-endpoint');
+var User = require('./users.js');
 
 //
 // Get Postgres rolling.
@@ -24,6 +25,11 @@ var routes = express.Router();
 routes.get('/app-bundle.js', browserify('./client/app/app.js'));
 routes.get('/css/app-bundle.css', sass.serve('./client/scss/app.scss'));
 
+routes.get('/signin', User.signin(req, res, next))
+
+routes.get('/signup', User.signup(req, res, next))
+
+
 //
 // Match endpoint to match movie genres with cuisines
 //
@@ -34,12 +40,14 @@ routes.get('/api/match/:zip', function(req, res) {
 
   var combinedResult = {};
   var pgClient = new pg.Client(pgConString);
+  
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });
   restaurantQuery.on('end', function(result) {
     combinedResult.restaurant = result.rows[0];
   });
+
   var movieQuery = pgClient.query("SELECT * FROM movies order by random() limit 1", function(err, result){
     return result;
   });
