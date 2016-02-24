@@ -1,8 +1,9 @@
 var reddit = require('./helpers/redditHelp');
-var movie = require('./helpers/tvHelp');
+var tv = require('./helpers/tvHelp');
 var pg = require('pg');
 
-//TODO: convert to TV FORMAT!!!!
+//NOTE: this file needs testing.
+//may need to be required somewhere, too.
 
 //
 // Get PG config'd
@@ -18,75 +19,74 @@ if (process.env.NODE_ENV !== 'production') {
 var pgClient = new pg.Client(pgConString);
 
 //
-// START Movie insert
+// START tv show insert
 //
 reddit.getMovies()
   .then(function(res){
-    return movie.getMovieDB(res)
+    return tv.getMovieDB_Tv(res)
   })
-  .then(function(movieData){
-      console.log('I am the response, do with me as you will',movieData)
-      console.log("Total Movies Returned: ", movieData)
+  .then(function(tvData){
+      console.log('I am the response, do with me as you will',tvData)
+      console.log("Total shows returned: ", tvData)
 
       var k;
-      for (k=0;k<movieData.length;k++){
+      for (k=0;k<tvData.length;k++){
         (function(){
-          var movieTitle = movieData[k].title
-          var movieSummary = movieData[k].summary
-          var movieUrl = movieData[k].url
-          var movieImageUrl = movieData[k].img
-          var movieRating = movieData[k].rating
-          var movieReleaseDate = movieData[k].releaseDate
-          var movieGenresArray = movieData[k].genreArray
-          var movieGenres = ''
-          // console.log(movieGenresArray.length)
-          if (movieGenresArray.length>0) {
-            for (var g=0;g<movieGenresArray.length;g++){
+          var tvTitle = tvData[k].title
+          var tvSummary = tvData[k].summary
+          var tvUrl = tvData[k].url
+          var tvImageUrl = tvData[k].img
+          var tvRating = tvData[k].rating
+          var tvReleaseDate = tvData[k].releaseDate
+          var tvGenresArray = tvData[k].genreArray
+          var tvGenres = ''
+          // console.log(tvGenresArray.length)
+          if (tvGenresArray.length>0) {
+            for (var g=0;g<tvGenresArray.length;g++){
               (function(){
 
               })(g)
-              var thisGenreID = movieData[k].genreArray[g]
+              var thisGenreID = tvData[k].genreArray[g]
               // console.log("GENRE ID: ", thisGenreID)
               var sqlGetMovieGenre = 'SELECT genre_name FROM "genres" WHERE genre_moviedb_id=' + thisGenreID
 
               pgClient.query(sqlGetMovieGenre, function(err, result){
                 if (err){
-                  return console.log("Error getting movie genre", err);
+                  return console.log("Error getting genre", err);
                 }
                 else {
-                  movieGenres += result.rows[0].genre_name
-                  // console.log("INITIAL: ", movieGenres)
+                  tvGenres += result.rows[0].genre_name
+                  // console.log("INITIAL: ", tvGenres)
                 }
 
-                var resultGenres = movieGenres.slice(0,-2)
+                var resultGenres = tvGenres.slice(0,-2)
 
-              runInsertMovieQuery()
+              runInsertTvQuery()
               })
               
             
             }
           }
 
-          var runInsertMovieQuery = function(){
+          var runInsertTvQuery = function(){
             
-            var sqlInsertMovie = 'INSERT INTO "movies" (movie_title, movie_summary, movie_url, movie_image_url, movie_rating, movie_release_date, movie_genres) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING movie_id'
+            var sqlInsertTv = 'INSERT INTO "tv" (tv_title, tv_summary, tv_url, tv_image_url, tv_rating, tv_release_date, tv_genres) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING tv_id'
             
-            pgClient.query(sqlInsertMovie, [movieTitle, movieSummary, movieUrl, movieImageUrl, movieRating, movieReleaseDate, movieGenres], function (err, result){
+            pgClient.query(sqlInsertTv, [tvTitle, tvSummary, tvUrl, tvImageUrl, tvRating, tvReleaseDate, tvGenres], function (err, result){
                 if (err){
-                  return console.log('error inserting movie', err);
+                  return console.log('error inserting tv show', err);
                 }
                 else {
 
-                  console.log("Adding movie >>>", movieTitle)
-                  var newMovieID = result.rows[0].movie_id
-                   newMovieID
+                  console.log("Adding tv show >>>", tvTitle)
+                  var newTvID = result.rows[0].tv_id
                 }
-                  console.log("NEW MOVIE ID: ", newMovieID)
+                  console.log("NEW TV SHOW ID: ", newTvID)
               })
           }
           // });
         })(k);
       }
-      console.log(movieData)
+      // console.log('this is tvData: ', tvData);
       return;
   })
