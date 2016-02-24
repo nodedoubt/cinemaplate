@@ -1,15 +1,24 @@
-var uuid = require('uuid')
-// var pgClient = require('./db.js');
-
+var uuid = require('uuid');
+var pg = require('pg');
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
+}
 
 exports.createSession = function(user, res){
+  return new Promise (function(resolve, reject){
+
   var sessionId = uuid();
   var pgClient = new pg.Client(pgConConfig);
-  var sqlSessionInsert = "INSERT INTO userSessions VALUES ($1, $2)"
-  var newSession = pgClient.query(sqlSessionInsert, [user, sessionId])
+  var sqlSessionInsert = "INSERT INTO usersessions (user_id, session_id) VALUES ($1, $2)"
+  var newSession = pgClient.query(sqlSessionInsert, [user, sessionId], function(err, result){
+    if (err) {console.error('Error in insert into session')}
+    else {return result}
+  })
 
-  newSession.on('end', function(result){
-    res.status(200).send({session: sessionId})
+  newSession.on('end', function(){
+    resolve(sessionId)
   })
 
   pgClient.on('drain', function() {
@@ -17,17 +26,31 @@ exports.createSession = function(user, res){
   });
 
   pgClient.connect()
+  })
 }
 
 exports.findSession = function(sessionId){
+  return new Promise (function(resolve, reject){
+
+
   var pgClient = new pg.Client(pgConConfig);
-  var selectSession = pgClient.query("SELECT * FROM userSessions WHERE session_id = " + sessionId);
 
+  var findSession = "SELECT * FROM usersessions WHERE session_id = $1" 
+  var selectSession = pgClient.query(findSession, [sessionId], function(err, result){
+    if (err){console.error('error in userSearch ', err)}
+    else {
+      return result;
+    }
+  });
 
+  selectSession.on('end', function(result){
+    resolve(result)
+  })
 
   pgClient.on('drain', function() {
     pgClient.end();
   });
 
   pgClient.connect()
+  })
 }

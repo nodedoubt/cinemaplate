@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS "users" (
   "email" varchar(255) NOT NULL UNIQUE
 );
 
-CREATE TABLE IF NOT EXISTS "userCombos" (
+CREATE TABLE IF NOT EXISTS "usercombos" (
   "user_id" INTEGER REFERENCES "users" ("user_id"),
   "restaurant_id" INTEGER REFERENCES "restaurants",
   "movie_id" INTEGER REFERENCES "movies",
@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS "userCombos" (
   UNIQUE (user_id, restaurant_id, movie_id, tv_id)
 );
 
-CREATE TABLE IF NOT EXISTS "userSessions" (
+CREATE TABLE IF NOT EXISTS "usersessions" (
   "user_id" INTEGER REFERENCES "users" ("user_id"),
-  "session_id" INTEGER NOT NULL UNIQUE
+  "session_id" VARCHAR(255) NOT NULL UNIQUE
 );

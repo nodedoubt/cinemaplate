@@ -13,20 +13,26 @@ var pgConConfig = {
 exports.signin = function(req, res){
   var username = req.body.username;
   var password = req.body.password;
-  var found = findUser(username)
+  findUser(username).then(function(found){
 
-    // if (!found){
-    //   res.status(400).send("Username Incorrect")
-    // } else {
-      bcrypt.compare(password, found.password)
+    if (!found.rowCount){
+      res.status(400).send("Username Incorrect")
+    } else {
+      console.log('found inside signin ', found.rows)
+      bcrypt.compare(password, found.rows[0].password)
       .then(function(){
         console.log('result from findUser ', found)
-        return sessions.createSession(found, res)
+        return sessions.createSession(found.rows[0].user_id)
       })
       .catch(bcrypt.MISMATCH_ERROR, function(){
         res.status(400).send("Password Incorrect")
       })
-    // }
+      .then(function(sessionId){
+        res.setHeader('Set-Cookie', 'sessionId=' + sessionId)
+        res.status(200).send({success: "User is now logged in"})
+      })
+    }
+  })
 }
 
 exports.signup = function(req, res){
@@ -75,7 +81,12 @@ var findUser = function(username){
   var pgClient = new pg.Client(pgConConfig);
 
   var userSelect = "SELECT * FROM users WHERE username = $1"
-  var userSearch = pgClient.query(userSelect, [username])
+  var userSearch = pgClient.query(userSelect, [username], function(err, result){
+    if (err){console.error('error in userSearch ', err)}
+    else {
+      return result;
+    }
+  })
   userSearch.on('end', function(result){
     console.log('result of findUser ', result)
    resolve(result)
