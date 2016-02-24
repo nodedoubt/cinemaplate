@@ -13,24 +13,20 @@ var pgConConfig = {
 exports.signin = function(req, res){
   var username = req.body.username;
   var password = req.body.password;
-  var user = findUser(username)
+  var found = findUser(username)
 
-  user.on('end', function(){
-    if (user.length > 0){
-      res.status(400).send("Username or Password Incorrect")
-    } else {
-      bcrypt.compare(password, user.password)
+    // if (!found){
+    //   res.status(400).send("Username Incorrect")
+    // } else {
+      bcrypt.compare(password, found.password)
       .then(function(){
-        var newSession = sessions.createSession(user)
-        newSession.on('end', function(result){
-          res.status(200).send()
-        })
+        console.log('result from findUser ', found)
+        return sessions.createSession(found, res)
       })
       .catch(bcrypt.MISMATCH_ERROR, function(){
-        res.status(400).send("Username or Password Incorrect")
+        res.status(400).send("Password Incorrect")
       })
-    }
-  })
+    // }
 }
 
 exports.signup = function(req, res){
@@ -41,9 +37,9 @@ exports.signup = function(req, res){
   var pgClient = new pg.Client(pgConConfig);
   console.log('req.body inside sign up ', req.body)
   //first check if the username is taken already
-  var found = findUser(username)
-
-  if (found){
+  findUser(username).then(function(found){
+    console.log('found after the then ', found)
+  if (found.rowCount){
     res.status(400).send("Username already exists")
   }
   else {
@@ -60,6 +56,7 @@ exports.signup = function(req, res){
       })
     })
   }
+  })
   pgClient.on('drain', function() {
     pgClient.end();
   });
@@ -72,18 +69,24 @@ exports.checkAuth = function(req, res){
 }
 
 var findUser = function(username){
+  return new Promise (function(resolve, reject) {
+          
+  var found;
   var pgClient = new pg.Client(pgConConfig);
 
-  var userSearch = pgClient.query("SELECT * FROM users WHERE username = " + username, function(err, result){
-    return result;
-  })
+  var userSelect = "SELECT * FROM users WHERE username = $1"
+  var userSearch = pgClient.query(userSelect, [username])
   userSearch.on('end', function(result){
     console.log('result of findUser ', result)
-    return result
+   resolve(result)
   })
   pgClient.on('drain', function() {
     pgClient.end();
   });
 
   pgClient.connect()
+
+
+  })
+
 };
