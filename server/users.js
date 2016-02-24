@@ -3,6 +3,13 @@ var pg = require('pg');
 var bcrypt = require('bcrypt-as-promised');
 var sessions = require('./sessions.js')
 
+var pgConString = '';
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
+}
+
 exports.signin = function(req, res){
   var username = req.body.username;
   var password = req.body.password;
@@ -32,27 +39,25 @@ exports.signup = function(req, res){
   var location = req.body.location;
   var email = req.body.email;
   var pgClient = new pg.Client(pgConConfig);
-
+  console.log('req.body inside sign up ', req.body)
   //first check if the username is taken already
   var found = findUser(username)
 
-  if (found.length > 0){
+  if (found){
     res.status(400).send("Username already exists")
   }
   else {
     bcrypt.hash(password, 10).then(function(hashed){
-    var userInsert = "INSERT INTO users (username, password, location, email) VALUES ($1, $2, $3, $4)"  
-    pgClient.query(userInsert, [username, hashed, location, email], function(err, result){
-      if (err) {
-        console.error('Error in insert into users table ', err)
-      } else {
-          return result
-      }
-    })
-    })
-    .then(function(result){
-      console.log('result from db user insert')
-      res.status(201).send("User created")
+      console.log('hashed key ', hashed)
+      var sqlInsertUser = "INSERT INTO users (username, password, location, email) VALUES ($1, $2, $3, $4) RETURNING username";
+      var insert = pgClient.query(sqlInsertUser, [username, hashed, location, email])
+      insert.on('end', function(result){
+        console.log('returned from insert ', result)
+        res.status(201).send({confirm: "User created", user: result})
+      })
+      insert.on('error', function(err){
+        console.log('Error in insert ', err)
+      })
     })
   }
   pgClient.on('drain', function() {
