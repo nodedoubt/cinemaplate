@@ -12,7 +12,11 @@ var cookieParser = require('cookie-parser')
 
 require('../db/seed/seedRestaurant.js');
 require('../db/seed/seedMovie.js');
-require('../db/seed/seedTv.js')
+
+setTimeout(function(){
+  require('../db/seed/seedTv.js');
+}, 10000);
+
 
 
 //
