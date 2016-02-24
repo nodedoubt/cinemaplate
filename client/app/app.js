@@ -5,6 +5,7 @@ var angular = require('angular');
 var match = require('./match/match.js');
 var splash = require('./splash/splash.js');
 var services = require('./services/services.js');
+require('./fancybox/jquery.fancybox.js');
 
 // Instantiate our app instance and add ngRoute as a dependecy via
 // the 'angular-route' npm module. (ngRoute === angular-route)

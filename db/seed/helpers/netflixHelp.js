@@ -46,7 +46,7 @@ var MovieDB = {
         uri: url,
         qs: {
             page: page,
-            api_key: process.env.MOVIEDB_TOKEN // -> uri + '?access_token=xxxxx%20xxxxx' 
+            api_key: "6ea18d4ba61a68cf421247f58e6fba10" // -> uri + '?access_token=xxxxx%20xxxxx' 
         },
         headers: {
             'User-Agent': 'Request-Promise'
@@ -84,7 +84,7 @@ var Reddit = {
     qs: {
       sort: 'top',
       t: 'all',
-      limit: '100'
+      limit: '40'
     },
     headers: {
       'User-Agent': 'Request-Promise'

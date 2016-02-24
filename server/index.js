@@ -3,18 +3,32 @@ var express = require('express');
 var Path = require('path');
 var pg = require('pg');
 var sass = require('node-sass-endpoint');
+require('../db/seed/seedMovie.js');
+require('../db/seed/seedRestaurant.js');
+
 
 //
 // Get Postgres rolling.
 //
 var pgConString = '';
-if (process.env.NODE_ENV !== 'production') {
-  // If trying to connect to DB remotely (ie, dev environment)
-  // we need to add the ssl flag.
-  pgConString = process.env.DATABASE_URL + '?ssl=true';
-} else {
-  pgConString = process.env.DATABASE_URL;
+var pgConConfig = {
+  database: "development",
+  host: "localhost",
+  port: 5432
 }
+
+
+// if (process.env.NODE_ENV !== 'production') {
+//   // If trying to connect to DB remotely (ie, dev environment)
+//   // we need to add the ssl flag.
+//   pgConString = process.env.DATABASE_URL + '?ssl=false';
+// } else {
+//   pgConConfig = {
+//     database: "development",
+//     host: "localhost",
+//     port: 5432
+//   }
+// }
 
 var routes = express.Router();
 
@@ -33,7 +47,7 @@ routes.get('/api/match/:zip', function(req, res) {
   var slimZip = zip.slice(0,3);
 
   var combinedResult = {};
-  var pgClient = new pg.Client(pgConString);
+  var pgClient = new pg.Client(pgConConfig);
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });
