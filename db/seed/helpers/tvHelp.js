@@ -45,9 +45,10 @@ tv.getMovieDB_Tv = function(redditObj){
                 return res.map(function(obj){
                    var show = JSON.parse(obj);
                    var currShow = show.results[0];
+                   // console.log("this is currShow: ", currShow)
                    return {title: currShow.name, 
                            summary: currShow.overview, 
-                           url: anObject[currShow.title],
+                           url: anObject[currShow.name],
                            img: 'https://image.tmdb.org/t/p/w185/' + currShow.poster_path, 
                            rating: Math.round(currShow.vote_average/2), 
                            releaseDate: currShow.first_air_date, 

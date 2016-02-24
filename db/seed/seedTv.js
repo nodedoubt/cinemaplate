@@ -39,8 +39,7 @@ reddit.getMovies()
     return tv.getMovieDB_Tv(res)
   })
   .then(function(tvData){
-      console.log('I am the response, do with me as you will',tvData)
-      console.log("Total shows returned: ", tvData)
+      // console.log('I am the response, do with me as you will',tvData)
 
       var k;
       for (k=0;k<tvData.length;k++){
@@ -68,7 +67,9 @@ reddit.getMovies()
                   return console.log("Error getting genre", err);
                 }
                 else {
-                  tvGenres += result.rows[0].genre_name
+                    if (!!result.rows[0]) {
+                      tvGenres += result.rows[0].genre_name
+                    }
                   // console.log("INITIAL: ", tvGenres)
                 }
 
