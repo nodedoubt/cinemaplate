@@ -15,7 +15,7 @@ require('../db/seed/seedMovie.js');
 
 setTimeout(function(){
   require('../db/seed/seedTv.js');
-}, 10000);
+}, 20000);
 
 
 
