@@ -5,7 +5,7 @@ var pg = require('pg');
 //
 // Get PG config'd
 //
-var pgConString = '';
+// var pgConString = '';
 var pgConConfig = {
   database: "cinemaplate_dev",
   host: "localhost",
@@ -20,6 +20,12 @@ var pgConConfig = {
 // }
 var pgClient = new pg.Client(pgConConfig);
 
+
+pgClient.connect(function(err){
+   if (err){
+        return console.log('could not connect to postgres', err);
+   }
+})
 //
 // START Movie insert
 //
