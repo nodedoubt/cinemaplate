@@ -12,7 +12,13 @@ var cookieParser = require('cookie-parser')
 
 require('../db/seed/seedRestaurant.js');
 require('../db/seed/seedMovie.js');
-require('../db/seed/seedTv.js')
+
+//this is delayed by 20 seconds to avoid maxing out the
+//movieDB api's rate limit
+setTimeout(function(){
+  require('../db/seed/seedTv.js');
+}, 20000);
+
 
 
 //
