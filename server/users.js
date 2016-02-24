@@ -1,6 +1,5 @@
 var Promise = require('bluebird')
 var pg = require('pg');
-var pgClient = require('./db.js');
 var bcrypt = require('bcrypt-as-promised');
 var sessions = require('./sessions.js')
 
@@ -41,7 +40,14 @@ exports.signup = function(req, res){
   }
   else {
     bcrypt.hash(password, 10).then(function(hashed){
-      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" + username + ", " + hashed + ", " + location + ", " + email + ")")
+    var userInsert = "INSERT INTO users (username, password, location, email) VALUES ($1, $2, $3, $4)"  
+    pgClient.query(userInsert, [username, hashed, location, email], function(err, result){
+      if (err) {
+        console.error('Error in insert into users table ', err)
+      } else {
+          return result
+      }
+    })
     })
     .then(function(result){
       console.log('result from db user insert')

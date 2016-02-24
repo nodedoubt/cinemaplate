@@ -1,5 +1,5 @@
 var uuid = require('uuid')
-var pgClient = require('./db.js');
+// var pgClient = require('./db.js');
 
 
 exports.createSession = function(user){
