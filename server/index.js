@@ -6,7 +6,7 @@ var routes = express.Router();
 var sass = require('node-sass-endpoint');
 var User = require('./users.js');
 // var pgClient = require('./db.js');
-var sessions = ('./sessions.js')
+var sessions = require('./sessions.js')
 var cookieParser = require('cookie-parser')
 var combo = require('./combos.js')
 

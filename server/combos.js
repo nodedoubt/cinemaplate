@@ -103,7 +103,7 @@ exports.pullCombos = function(req, res){
 
   var sqlSelect = "SELECT * FROM usercombos WHERE user_id = $1"
 
-  var findCombos = pgClient.query(sqlSelect, [user_id], function(err, result){
+  var findCombos = pgClient.query(sqlSelect, [userId], function(err, result){
     if (err){
       console.error("There was an error fetching usercombos ", err)
     } else {
