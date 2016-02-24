@@ -24,7 +24,7 @@ exports.getMovieSuggestion = function(req, res) {
 
   if (req.body.genre){
       var genre = req.body.genre;
-      var genreSelect = "SELECT * FROM movies order by random() limit 1 JOIN genres ON genres.genre_id = movies.genre_id WHERE genres.genre_name = $1"
+      var genreSelect = "SELECT * FROM movies WHERE movie_genres = $1 order by random() limit 1"
       var movieQuery = pgClient.query(genreSelect, [genre], function(err, result){
         return result;
       });
@@ -65,7 +65,7 @@ exports.getTVSuggestion = function(req, res) {
 
   if (req.body.genre){
       var genre = req.body.genre;
-      var genreSelect = "SELECT * FROM tv order by random() limit 1 JOIN genres ON genres.genre_id = tv.genre_id WHERE genres.genre_name = $1"
+      var genreSelect = "SELECT * FROM tv WHERE tv_genres = $1 order by random() limit 1"
       var movieQuery = pgClient.query(genreSelect, [genre], function(err, result){
         return result;
       });
