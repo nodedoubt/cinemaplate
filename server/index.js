@@ -79,7 +79,7 @@ routes.get('/userCombos', function(req, res, next){
 //
 // Match endpoint to match movie genres with cuisines
 //
-routes.get('/api/match/:zip', function(req, res) {
+routes.post('/api/match/:zip', function(req, res) {
   if (req.body.type === 'TV') {
     suggestions.getTVSuggestions(req, res)
   } else {
