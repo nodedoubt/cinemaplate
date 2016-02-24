@@ -35,8 +35,8 @@ exports.findSession = function(sessionId){
 
   var pgClient = new pg.Client(pgConConfig);
 
-  var findSession = "SELECT * FROM usersessions WHERE session_id = $1" 
-  var selectSession = pgClient.query(findSession, [sessionId], function(err, result){
+  var sqlSelect = "SELECT * FROM usersessions WHERE session_id = $1" 
+  var selectSession = pgClient.query(sqlSelect, [sessionId], function(err, result){
     if (err){console.error('error in userSearch ', err)}
     else {
       return result;
@@ -44,7 +44,7 @@ exports.findSession = function(sessionId){
   });
 
   selectSession.on('end', function(result){
-    resolve(result)
+    resolve(result.rows[0])
   })
 
   pgClient.on('drain', function() {

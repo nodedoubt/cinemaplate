@@ -5,10 +5,10 @@ var pg = require('pg');
 var routes = express.Router();
 var sass = require('node-sass-endpoint');
 var User = require('./users.js');
-var pgClient = require('./db.js');
-var session = ('./sessions.js')
+// var pgClient = require('./db.js');
+var sessions = ('./sessions.js')
 var cookieParser = require('cookie-parser')
-
+var combo = require('./combos.js')
 
 require('../db/seed/seedRestaurant.js');
 require('../db/seed/seedMovie.js');
@@ -38,6 +38,34 @@ routes.post('/signup', function(req, res, next){
   User.signup(req, res, next)
 })
 
+routes.post('/saveWork', function(req, res, next){
+  if (req.session){
+    combo.saveWork(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
+routes.post('/saveRestaurant', function(req, res, next){
+  if (req.session){
+    combo.saveRestaurant(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }  
+})
+routes.post('/saveCombo', function(req, res, next){
+  if (req.session){
+    combo.saveCombo(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
+routes.get('/userCombos', function(req, res, next){
+  if (req.session){
+    combo.pullCombos(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
 //
 // Match endpoint to match movie genres with cuisines
 //
@@ -99,7 +127,7 @@ if (process.env.NODE_ENV !== 'test') {
 
   app.use(function (req, res, next) {
     if (req.cookies.sessionId) {
-      session.findSession(req.cookies.sessionId)
+      sessions.findSession(req.cookies.sessionId)
         .then(function(session) {
           req.session = session;
           next();

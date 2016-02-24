@@ -1,7 +1,7 @@
 var Promise = require('bluebird')
 var pg = require('pg');
 var bcrypt = require('bcrypt-as-promised');
-var sessions = require('./sessions.js')
+var sessions = require('./sessions.js');
 
 var pgConString = '';
 var pgConConfig = {
