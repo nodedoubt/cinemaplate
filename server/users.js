@@ -24,7 +24,7 @@ exports.signin = function(req, res){
         res.status(400).send("Username or Password Incorrect")
       })
     }
-  }) 
+  })
 }
 
 exports.signup = function(req, res){
@@ -41,7 +41,7 @@ exports.signup = function(req, res){
   }
   else {
     bcrypt.hash(password, 10).then(function(hashed){
-      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" username + ", " hashed + ", " location + ", " + email + ")")
+      return pgClient.query("INSERT INTO users (username, password, location, email) VALUES (" + username + ", " + hashed + ", " + location + ", " + email + ")")
     })
     .then(function(result){
       console.log('result from db user insert')
@@ -63,6 +63,3 @@ var findUser = function(username){
     return result
   })
 };
-
-
-
