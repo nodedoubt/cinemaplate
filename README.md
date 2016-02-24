@@ -76,6 +76,6 @@ Once the database is populated with restaurants and movies, we simply return a r
 ```
 postgres -D /usr/local/var/postgres
 createdb cinemaplate_dev
-psql “dbname=cinemaplate_dev options=--search_path=public" -f db/cinemaplate.sql
+psql 'dbname=cinemaplate_dev options=--search_path=public' -f db/cinemaplate.sql
 npm start
 ```
