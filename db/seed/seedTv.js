@@ -76,8 +76,7 @@ reddit.getMovies()
                 var resultGenres = tvGenres.slice(0,-2)
 
               runInsertTvQuery()
-              })
-              
+              }) 
             
             }
           }
