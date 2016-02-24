@@ -8,8 +8,11 @@ var User = require('./users.js');
 var pgClient = require('./db.js');
 var session = ('./sessions.js')
 var cookieParser = require('cookie-parser')
+
+
 require('../db/seed/seedRestaurant.js');
 require('../db/seed/seedMovie.js');
+// require('../db/seed/seedTv.js');
 
 //
 // Get Postgres rolling.
