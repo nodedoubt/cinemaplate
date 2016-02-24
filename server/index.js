@@ -8,7 +8,18 @@ var User = require('./users.js');
 var pgClient = require('./db.js');
 var session = ('./sessions.js')
 var cookieParser = require('cookie-parser')
-require('./db.js')
+require('../db/seed/seedRestaurant.js');
+require('../db/seed/seedMovie.js');
+
+//
+// Get Postgres rolling.
+//
+var pgConString = '';
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
+}
 
 //
 // Provide a browserified file at a specified path
@@ -30,7 +41,9 @@ routes.get('/api/match/:zip', function(req, res) {
   var zip = req.params.zip;
   // Get first 3 zip digits for SQL "like" query.
   var slimZip = zip.slice(0,3);
+
   var combinedResult = {};
+  var pgClient = new pg.Client(pgConConfig);
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });
@@ -45,6 +58,12 @@ routes.get('/api/match/:zip', function(req, res) {
     combinedResult.movie = result.rows[0];
     res.send(combinedResult)
   });
+  pgClient.on('drain', function() {
+  pgClient.end();
+});
+
+pgClient.connect()
+
 });
 
 //
