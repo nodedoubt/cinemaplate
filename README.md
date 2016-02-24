@@ -71,3 +71,11 @@ Once the database is populated with restaurants and movies, we simply return a r
   - Add API calls if a zipcode is not already in the database
   - Allow a movie or food option to be 'locked' and spin again for the cooresponding pairing.
   - Allow users to sign in and save a pairing, or review/comment on effective pairings.
+
+## Database Setup
+```
+postgres -D /usr/local/var/postgres
+createdb cinemaplate_dev
+psql 'dbname=cinemaplate_dev options=--search_path=public' -f db/cinemaplate.sql
+npm start
+```

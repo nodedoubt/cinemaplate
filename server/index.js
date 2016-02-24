@@ -2,21 +2,28 @@ var browserify = require('browserify-middleware');
 var express = require('express');
 var Path = require('path');
 var pg = require('pg');
+var routes = express.Router();
 var sass = require('node-sass-endpoint');
+var User = require('./users.js');
+// var pgClient = require('./db.js');
+var sessions = require('./sessions.js')
+var cookieParser = require('cookie-parser')
+var combo = require('./combos.js')
+
+require('../db/seed/seedRestaurant.js');
+require('../db/seed/seedMovie.js');
+require('../db/seed/seedTv.js')
+
 
 //
 // Get Postgres rolling.
 //
 var pgConString = '';
-if (process.env.NODE_ENV !== 'production') {
-  // If trying to connect to DB remotely (ie, dev environment)
-  // we need to add the ssl flag.
-  pgConString = process.env.DATABASE_URL + '?ssl=true';
-} else {
-  pgConString = process.env.DATABASE_URL;
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
 }
-
-var routes = express.Router();
 
 //
 // Provide a browserified file at a specified path
@@ -24,6 +31,41 @@ var routes = express.Router();
 routes.get('/app-bundle.js', browserify('./client/app/app.js'));
 routes.get('/css/app-bundle.css', sass.serve('./client/scss/app.scss'));
 
+routes.post('/signin', function(req, res, next){
+  User.signin(req, res, next)
+})
+routes.post('/signup', function(req, res, next){
+  User.signup(req, res, next)
+})
+
+routes.post('/saveWork', function(req, res, next){
+  if (req.session){
+    combo.saveWork(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
+routes.post('/saveRestaurant', function(req, res, next){
+  if (req.session){
+    combo.saveRestaurant(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }  
+})
+routes.post('/saveCombo', function(req, res, next){
+  if (req.session){
+    combo.saveCombo(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
+routes.get('/userCombos', function(req, res, next){
+  if (req.session){
+    combo.pullCombos(req, res)
+  } else {
+    res.status(401).send({Error: "User is not logged in"})
+  }
+})
 //
 // Match endpoint to match movie genres with cuisines
 //
@@ -33,13 +75,14 @@ routes.get('/api/match/:zip', function(req, res) {
   var slimZip = zip.slice(0,3);
 
   var combinedResult = {};
-  var pgClient = new pg.Client(pgConString);
+  var pgClient = new pg.Client(pgConConfig);
   var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' order by random() limit 1", function(err, result){
     return result;
   });
   restaurantQuery.on('end', function(result) {
     combinedResult.restaurant = result.rows[0];
   });
+
   var movieQuery = pgClient.query("SELECT * FROM movies order by random() limit 1", function(err, result){
     return result;
   });
@@ -48,9 +91,11 @@ routes.get('/api/match/:zip', function(req, res) {
     res.send(combinedResult)
   });
   pgClient.on('drain', function() {
-    pgClient.end();
-  });
-  pgClient.connect();
+  pgClient.end();
+});
+
+pgClient.connect()
+
 });
 
 //
@@ -77,6 +122,21 @@ if (process.env.NODE_ENV !== 'test') {
 
   // Parse incoming request bodies as JSON
   app.use( require('body-parser').json() );
+
+  app.use(cookieParser());
+
+  app.use(function (req, res, next) {
+    if (req.cookies.sessionId) {
+      sessions.findSession(req.cookies.sessionId)
+        .then(function(session) {
+          req.session = session;
+          next();
+        });
+    } else {
+      // No session to fetch; just continue
+      next();
+    }
+  })
 
   // Mount our main router
   app.use('/', routes);
