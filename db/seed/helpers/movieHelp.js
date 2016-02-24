@@ -29,6 +29,8 @@ movie.getMovieDB = function(redditObj){
         allCalls.push(rp('http://api.themoviedb.org/3/search/movie?query=' + escaped + '&api_key=' + process.env.MOVIEDB_TOKEN))
         // TODO change moviedb api to query for movie id instead of title query
         // allCalls.push(rp('http://api.themoviedb.org/3/search/movie?query=' + escaped + '&api_key=' + process.env.MOVIEDB_TOKEN))
+        'http://api.themoviedb.org/3/movie/' + currMovie.id + '?api_key=' + process.env.MOVIEDB_TOKEN + '&append_to_response=videos'
+        // 'http://api.themoviedb.org/3/movie/157336?api_key=52bc5e6536cc2a2bbe8cf52f7395ef0b&append_to_response=videos'
 
     }
 
