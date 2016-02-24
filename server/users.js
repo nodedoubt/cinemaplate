@@ -31,6 +31,7 @@ exports.signup = function(req, res){
   var password = req.body.password;
   var location = req.body.location;
   var email = req.body.email;
+  var pgClient = new pg.Client(pgConConfig);
 
   //first check if the username is taken already
   var found = findUser(username)
@@ -54,6 +55,11 @@ exports.signup = function(req, res){
       res.status(201).send("User created")
     })
   }
+  pgClient.on('drain', function() {
+    pgClient.end();
+  });
+
+  pgClient.connect()  
 }
 
 exports.checkAuth = function(req, res){
@@ -61,6 +67,8 @@ exports.checkAuth = function(req, res){
 }
 
 var findUser = function(username){
+  var pgClient = new pg.Client(pgConConfig);
+
   var userSearch = pgClient.query("SELECT * FROM users WHERE username = " + username, function(err, result){
     return result;
   })
@@ -68,4 +76,9 @@ var findUser = function(username){
     console.log('result of findUser ', result)
     return result
   })
+  pgClient.on('drain', function() {
+    pgClient.end();
+  });
+
+  pgClient.connect()
 };
