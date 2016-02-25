@@ -1,4 +1,5 @@
 var pg = require('pg');
+var yelp = require('../db/seed/addRestaurant_newZip.js')
 
 var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABASE_URL : {
   database: "cinemaplate_dev",

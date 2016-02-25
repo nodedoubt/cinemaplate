@@ -9,6 +9,8 @@ var sessions = require('./sessions.js');
 var cookieParser = require('cookie-parser');
 var combo = require('./combos.js');
 var suggestions = require('./suggestions.js');
+var yelp = require('../db/seed/addRestaurant_newZip.js');
+
 
 require('../db/seed/seedRestaurant.js');
 require('../db/seed/seedMovie.js');
@@ -87,6 +89,20 @@ routes.post('/alterUserInfo', function(req, res, next){
 //
 // Match endpoint to match movie genres with cuisines
 //
+
+routes.get('/api/match/:zip', function(req, res) {
+  var zip = req.params.zip;
+  req.body.cuisine = '';
+  req.body.genre = '';
+
+  //query yelp with zip and add restaurants to db
+  yelp.addRestaurants(zip)
+    .then(function(resp){
+      console.log("made it to then!!!")
+         suggestions.getMovieSuggestion(req, res)
+    })
+});
+
 routes.post('/api/match/:zip', function(req, res) {
   if (req.body.cycle === 'Restaurant') {
     suggestions.getOnlyRestaurants(req, res)
