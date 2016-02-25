@@ -6,6 +6,8 @@ angular.module('cinePlate.match', [])
   $scope.contentLoaded = false;
   $scope.type = '';
   $scope.genre = '';
+  $scope.cycle = '';
+  $scope.cuisine = '';
   $scope.stars = [1, 2, 3, 4, 5];
   $scope.movie = { 
     title: 'Kung Fu Panda',
@@ -17,7 +19,7 @@ angular.module('cinePlate.match', [])
   $scope.movie = {};
 
   $scope.generateMatch = function () {
-    var data = {type: $scope.type, genre: $scope.genre}
+    var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine}
     $scope.contentLoaded = false;
     $scope.isActive = !$scope.isActive;
     Matches.generateMatch($routeParams.zip, data)
