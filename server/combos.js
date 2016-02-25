@@ -102,6 +102,7 @@ exports.pullCombos = function(req, res){
   var pgClient = new pg.Client(pgConConfig);
   var userId = req.session.user_id;
 
+  var userData = {};
   var selectInfo = "SELECT * FROM usercombos FULL OUTER JOIN movies ON movies.movie_id = usercombos.movie_id FULL OUTER JOIN tv ON tv.tv_id = usercombos.tv_id FULL OUTER JOIN restaurants ON restaurants.restaurant_id = usercombos.restaurant_id WHERE usercombos.user_id = $1"
 
   var findCombos = pgClient.query(selectInfo, [userId], function(err, result){
@@ -113,7 +114,21 @@ exports.pullCombos = function(req, res){
   })
 
   findCombos.on('end', function(result){
-    res.status(200).send(result.rows);
+    userData.combos = result.rows 
+  })
+
+  var selectUser = "SELECT username, location, email FROM users WHERE user_id = $1"
+  var findUser = pgClient.query(selectUser, [userId], function(err, result){
+    if (err){
+      console.error("There was an error fetching this user ", err)
+    } else {
+      return result
+    }
+  })
+
+  findUser.on('end', function(result){
+    userData.user = result.rows;
+    res.status(200).send(userData);
   })
 
   pgClient.on('drain', function() {

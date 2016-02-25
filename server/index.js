@@ -75,6 +75,15 @@ routes.get('/userCombos', function(req, res, next){
     res.status(401).send({Error: "User is not logged in"})
   }
 });
+
+routes.post('/alterUserInfo', function(req, res, next){
+  if (req.session){
+    User.alterInfo(req, res)
+  } else {
+    res.status(401).send({Error: "You do not have permission for this request"})
+  }
+  
+})
 //
 // Match endpoint to match movie genres with cuisines
 //
