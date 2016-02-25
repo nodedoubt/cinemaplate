@@ -11,13 +11,7 @@ var pgConConfig = {
   host: "localhost",
   port: 5432
 }
-// if (process.env.NODE_ENV !== 'production') {
-//   // If trying to connect to DB remotely (ie, dev environment)
-//   // we need to add the ssl flag.
-//   pgConString = process.env.DATABASE_URL + '?ssl=true';
-// } else {
-//   pgConString = process.env.DATABASE_URL;
-// }
+
 var pgClient = new pg.Client(pgConConfig);
 
 //
@@ -127,8 +121,8 @@ exports.addRestaurants = function(zip){
               })
     })
     .catch(function(err){
-      console.err("ERROR: Yelp had problems. ", err);
-      reject();
+      console.error("ERROR: Yelp had problems. ", err);
+      resolve();
     })
   })
 }

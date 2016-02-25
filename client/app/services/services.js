@@ -19,7 +19,7 @@ angular.module('cinePlate.services', [])
     });
   };
 
-  var generateMatch = function (zip) {
+  var generate1stMatch = function (zip) {
     return $http({
       method: 'GET',
       url: '/api/match/' + zip

@@ -91,29 +91,16 @@ routes.post('/alterUserInfo', function(req, res, next){
 //
 
 routes.get('/api/match/:zip', function(req, res) {
-
   var zip = req.params.zip;
+  req.body.cuisine = '';
+  req.body.genre = '';
 
   //query yelp with zip and add restaurants to db
   yelp.addRestaurants(zip)
     .then(function(resp){
-      if (req.body.cycle === 'Restaurant') {
-        suggestions.getOnlyRestaurants(req, res)
-      }
-      else if (req.body.type === 'TV') {
-        if (req.body.cycle === 'TV') {
-          suggestions.getOnlyTv(req, res)
-        } else {
-          suggestions.getTVSuggestions(req, res)
-        }
-      } else {
-        if (req.body.cycle === 'Movie') {
-          suggestions.getOnlyMovies(req, res)
-        } else {
+      console.log("made it to then!!!")
          suggestions.getMovieSuggestion(req, res)
-       }
-      }
-    }
+    })
 });
 
 routes.post('/api/match/:zip', function(req, res) {
