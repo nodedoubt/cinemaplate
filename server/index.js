@@ -24,12 +24,11 @@ setTimeout(function(){
 //
 // Get Postgres rolling.
 //
-var pgConString = '';
-var pgConConfig = {
+var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABASE_URL : {
   database: "cinemaplate_dev",
   host: "localhost",
   port: 5432
-}
+};
 
 //
 // Provide a browserified file at a specified path

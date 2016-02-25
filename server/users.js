@@ -3,12 +3,11 @@ var pg = require('pg');
 var bcrypt = require('bcrypt-as-promised');
 var sessions = require('./sessions.js');
 
-var pgConString = '';
-var pgConConfig = {
+var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABASE_URL : {
   database: "cinemaplate_dev",
   host: "localhost",
   port: 5432
-}
+};
 
 exports.signin = function(req, res){
   var username = req.body.username;

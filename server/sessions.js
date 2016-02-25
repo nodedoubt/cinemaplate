@@ -1,10 +1,10 @@
 var uuid = require('uuid');
 var pg = require('pg');
-var pgConConfig = {
+var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABASE_URL : {
   database: "cinemaplate_dev",
   host: "localhost",
   port: 5432
-}
+};
 
 exports.createSession = function(user, res){
   return new Promise (function(resolve, reject){
