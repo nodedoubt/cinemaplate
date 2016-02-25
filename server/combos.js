@@ -2,11 +2,12 @@ var pg = require('pg');
 var Promise = require('bluebird');
 var sessions = require('./sessions.js');
 var user = require('./users.js')
-var pgConConfig = {
+var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABASE_URL : {
   database: "cinemaplate_dev",
   host: "localhost",
   port: 5432
 };
+
 
 //works must have a flag that indicates whether the given work is a movie or a tv show
 exports.saveWork = function(req, res){
