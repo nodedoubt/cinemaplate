@@ -37,6 +37,7 @@ angular.module('cinePlate.services', [])
     })
     .catch(function(err){
       console.error("There was an error in Signin services ", err)
+      return err.data
     })
   };
 
@@ -50,7 +51,8 @@ angular.module('cinePlate.services', [])
       return resp.data;
     })
     .catch(function(err){
-      console.error("There was an error in Signup services ", err)      
+      console.error("There was an error in Signup services ", err) 
+      return err.data    
     })
   };
 
