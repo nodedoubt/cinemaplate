@@ -30,7 +30,7 @@ angular.module('cinePlate.match', [])
   $scope.generateMatch = function () {
     var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine}
     $scope.contentLoaded = false;
-    $scope.isActive = !$scope.isActive;
+    $scope.isActive = true;
     Matches.generateMatch($routeParams.zip, data)
       .then(function (response) {
         console.log(response)
