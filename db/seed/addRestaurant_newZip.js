@@ -26,6 +26,11 @@ var pgClient = new pg.Client(pgConConfig);
 
 exports.addRestaurants = function(zip){
 
+
+
+  //ideas to make return:
+    //1) 
+
   return new Promise (function(resolve, reject){
     yelp.getFoodByZip(zip)
       .then(function(data){
@@ -33,9 +38,8 @@ exports.addRestaurants = function(zip){
           console.log("Total Restaurants Returned: ", data.length)
           console.log("Restaurant Object", data[0].location.city)
           var i;
-          var allCalls = [];
           for (i =0;i<data.length;i++){
-            (function(){
+            resolve((function(){ //(JW) I added this resolve. planning to play with it tomorrow.
 
               var restName = data[i].name
               var restDescription = data[i].snippet_text
@@ -67,7 +71,7 @@ exports.addRestaurants = function(zip){
                 }
                 var sqlInsertRestaurants = 'INSERT INTO "restaurants" (restaurant_name,restaurant_description,restaurant_phone, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zip, restaurant_image_url, restaurant_url, restaurant_yelp_rating, restaurant_yelp_id, restaurant_cuisines) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING restaurant_id'
                 
-                pgClient.query(sqlInsertRestaurants, [restName, restDescription, restPhone, restStreetAddress, restCity, restState, restZipCode, restImageUrl, restEat24Url, restYelpRating, restYelpId, restCuisines], function (err, result){
+                var newRestaurants = pgClient.query(sqlInsertRestaurants, [restName, restDescription, restPhone, restStreetAddress, restCity, restState, restZipCode, restImageUrl, restEat24Url, restYelpRating, restYelpId, restCuisines], function (err, result){
                     if (err){                 
                       return console.log('error inserting restaurant.', err.message);
                     }
@@ -78,13 +82,19 @@ exports.addRestaurants = function(zip){
                       console.log("NEW RESTAURANT ID: ", newRestaurantID)
                     }
                   })
+
+                    newRestaurants.on('end', function(result){
+                    console.log("this is the value of i: ", i) //not seeing this
+          })
+
                 });
-          console.log("this is the value of i: ", i) //not seeing this
-            })(i);
-            console.log("one bracket from return"); //not seeing this
+
+          
+            })(i));
+            // console.log("one bracket from return"); //not seeing this
           }
-          console.log("about to return"); //not seeing this
-          return;
+          // console.log("about to return"); //not seeing this
+          // return;
         })
   })
 }
