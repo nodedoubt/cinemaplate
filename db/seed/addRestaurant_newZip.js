@@ -37,9 +37,17 @@ exports.addRestaurants = function(zip){
           //loop through each restaurant and get restaurant details
           console.log("Total Restaurants Returned: ", data.length)
           console.log("Restaurant Object", data[0].location.city)
+
+
+          //this is a real bear of a file... that has in turn been complicated by refactoring to return a promise.
+
+          //allCalls will be populated with promises...
+          var allCalls = [];
+
           var i;
           for (i =0;i<data.length;i++){
-            resolve((function(){ //(JW) I added this resolve. planning to play with it tomorrow.
+            // allCalls.push(
+              resolve((function(){
 
               var restName = data[i].name
               var restDescription = data[i].snippet_text
@@ -82,19 +90,23 @@ exports.addRestaurants = function(zip){
                       console.log("NEW RESTAURANT ID: ", newRestaurantID)
                     }
                   })
-
+                    //try pushing this to allCalls instead?
                     newRestaurants.on('end', function(result){
-                    console.log("this is the value of i: ", i) //not seeing this
-          })
-
+                      //do some console logging?
+                      console.log('a new restauarant called .on("end") here >> ', result);
+                      return result;
+                    });
                 });
-
-          
-            })(i));
-            // console.log("one bracket from return"); //not seeing this
+              })(i))
+            // ); //this is the end of the promise that is pushed into 'allCalls'
           }
-          // console.log("about to return"); //not seeing this
-          // return;
-        })
+
+          //THIS STATEMENT is '.then-able' once all of the restaurants have been added to the database. Currently isn't waiting until promise fulfillment though...
+          return Promise.all(allCalls)
+              .then(function(res){
+                console.log('all restaurants added to db? >>>', res)
+                return res;
+              })
+    })
   })
 }
