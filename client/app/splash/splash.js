@@ -18,7 +18,7 @@ angular.module('cinePlate.splash', [])
   $scope.getZip = function () {
     if($scope.zip !== ''){
       console.log($scope.zip)
-      $location.path('/' + $scope.zip);
+      $location.path('/1st/' + $scope.zip);
     }
   }
 }])

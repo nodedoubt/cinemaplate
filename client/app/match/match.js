@@ -43,6 +43,22 @@ angular.module('cinePlate.match', [])
         console.error(error);
       });
   };
-  $scope.generateMatch();
+
+    $scope.generate1stMatch = function () {
+    $scope.contentLoaded = false;
+    $scope.isActive = true;
+    Matches.generate1stMatch($routeParams.zip)
+      .then(function (response) {
+        console.log(response)
+        $scope.restaurant = response.restaurant;
+        $scope.movie = response.movie;
+        $scope.contentLoaded = true;
+        $scope.isActive = !$scope.isActive;
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
+  };
+  $scope.generate1stMatch();
 
 }])
