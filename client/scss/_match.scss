@@ -49,7 +49,11 @@
     li {
       display: inline;
       margin-left: 2em;
+      &.last {
+        margin-left:-.1em;
+      }
     }
+
     a {
       text-align: center;
       text-decoration: none;
@@ -198,14 +202,16 @@
 .fade {
   position: relative;
   height: 10em;
-  overflow: hidden;
+  overflow: auto;
 }
 
 .fade-restaurant {
+  position: relative;
   height: 6.5em;
+  overflow: auto;
 }
 
-.fade:after {
+.fade-restaurant:after {
   content: "";
   text-align: right;
   position: absolute;
@@ -214,4 +220,36 @@
   width: 70%;
   height: 1.6em;
   background: linear-gradient(to right, rgba(#474747, 0), rgba(#474747, 1) 50%);
+  display: block;
+}
+
+.collapse-text-toggle {
+    font-size: 0.9em;
+    color: #ccc;
+    cursor: pointer;
+}
+.collapse-text-toggle:hover {
+    color: $secondary_accent;
+}
+.collapse-text-toggle:before {
+    content: '\00a0(';
+}
+.collapse-text-toggle:after {
+    content: ')';
+}
+
+svg:hover .unlocked{
+  fill: #f8e71c;
+}
+
+svg:hover .locked{
+  fill:#9f2f24;
+}
+
+svg#unlocked, svg#locked {
+  cursor: pointer;
+  position: absolute;
+  margin-left: -3%;
+  margin-top: 1%;
+  outline: none;
 }
