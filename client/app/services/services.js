@@ -56,8 +56,23 @@ angular.module('cinePlate.services', [])
     })
   };
 
+  var fetchUser = function(){
+    return $http({
+      method: 'GET',
+      url: '/userCombos'
+    })
+    .then(function(resp){
+      return resp.data;
+    })
+    .catch(function(err){
+      console.error("There was an error ", err)
+      return err.data;
+    })
+  }
+
   return {
     signin: signin,
-    signup: signup
+    signup: signup,
+    fetchUser: fetchUser
   }
 }])

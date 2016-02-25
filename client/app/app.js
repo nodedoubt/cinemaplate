@@ -31,7 +31,7 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
 
   .when('/userProfile', {
     templateUrl: 'app/auth/userProfile.html',
-    controller: 'AuthController'
+    controller: 'AuthCtrl'
   })
 
   .when('/error/500', {

@@ -8,6 +8,9 @@ angular.module('cinePlate.auth', [])
     email: ''
   };
 
+  $scope.userStats = {};
+
+
   $scope.signin = function () {
     Auth.signin($scope.user)
     .then(function(resp){
@@ -39,4 +42,15 @@ angular.module('cinePlate.auth', [])
       console.error('error in signup ', err)
     })
   };
+
+  $scope.fetchUserStats = function(){
+    Auth.fetchUser()
+    .then(function(resp){
+      $scope.userStats = resp;
+    })
+    .catch(function(resp){
+      console.error('Can not fetch User data. Are you logged in?')
+      console.error('Error in fetch user data ', err)
+    })
+  }
 });
