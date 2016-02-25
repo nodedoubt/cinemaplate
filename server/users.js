@@ -74,6 +74,48 @@ exports.checkAuth = function(req, res){
   sessions.findSession()
 }
 
+exports.editUser = function(req, res){
+  var password = req.body.password;
+  var location = req.body.location;
+  var email = req.body.email;
+  var userId = req.session.userId
+
+  if (password.length > 0){
+    bcrypt.hash(password, 10).then(function(hashed){
+      console.log('hashed key ', hashed)
+      var sqlPasswordUpdate = "UPDATE users SET password = $1 WHERE user_id = $2"
+      var insertPassword = pgClient.query(sqlInsertUser, [hashed, userId])
+      insertPassword.on('end', function(result){
+        console.log('returned from insertPassword ', result)
+        res.status(201).send({confirm: "User updated", user: result})
+      })
+      insertPassword.on('error', function(err){
+        console.log('Error in insert ', err)
+      })
+    })
+  } else if (location.length > 0){
+    var sqlLocationUpdate = "UPDATE users SET location = $1 WHERE user_id = $2"
+    var updateLocation = pgClient.query(sqlLocationUpdate, [location, userId])
+    updateLocation.on('end', function(result){
+      console.log('returned from update location ', result)
+      res.status(201).send({confirm: "User updated", user: result})
+    })
+  } else {
+    var sqlEmailUpdate = "UPDATE TABLE users ALTER COLUMN email WHERE"
+    var updateEmail = pgClient.query(sqlEmailUpdate, [email, userId])
+    updateEmail.on('end', function(result){
+      console.log('returned from update email ', result)
+      res.status(201).send({confirm: "User updated", user: result})
+    })
+  }
+  pgClient.on('drain', function() {
+    pgClient.end();
+  });
+
+  pgClient.connect() 
+
+};
+
 var findUser = function(username){
   return new Promise (function(resolve, reject) {
           
