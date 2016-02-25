@@ -2,9 +2,7 @@ var pg = require('pg');
 var yelp = require('./helpers/yelpHelp');
 var Promise = require('bluebird');
 
-//
-// Get PG config'd
-//
+//pgconfig stuff
 var pgConString = '';
 var pgConConfig = {
   database: "cinemaplate_dev",
@@ -14,30 +12,17 @@ var pgConConfig = {
 
 var pgClient = new pg.Client(pgConConfig);
 
-//
-// START Restaurant insert
-//
 
 exports.addRestaurants = function(zip){
 
-  //ideas to make return:
-    //1) 
   return new Promise(function(resolve, reject){
     yelp.getFoodByZip(zip)
       .then(function(data){
-          //loop through each restaurant and get restaurant details
           console.log("Total Restaurants Returned: ", data.length)
           console.log("Restaurant Object", data[0].location.city)
 
-
-          //this is a real bear of a file... that has in turn been complicated by refactoring to return a promise.
-
           //allCalls will be populated with promises...
           var allCalls = [];
-
-          //YOU NEED:
-            //1) resolve() / reject
-            //2) place the for loop in the right place.
             
           var addOneRestaurant = function(x){
 
@@ -56,7 +41,6 @@ exports.addRestaurants = function(zip){
               var restYelpId = data[x].id
               var restCuisinesLength = data[x].categories.length
               var restCuisines = ''
-              // var newRestaurantID
 
               // push categories into temp array
               for (var j=0;j<restCuisinesLength;j++){
@@ -88,7 +72,7 @@ exports.addRestaurants = function(zip){
                   })
                     newRestaurants.on('end', function(result){
                       console.log('a new restauarant called .on("end") here >> ', result);
-                      res(); //resolve the promise
+                      res();
                       return result;
                     });
                     newRestaurants.on('error', function(err){
@@ -100,29 +84,25 @@ exports.addRestaurants = function(zip){
               });
             }
 
+          //Calls addOneRestaurant for a bunch of restaurants
           for (var i =0;i<data.length;i++){
             allCalls.push(addOneRestaurant(i));
           }
 
-          //THIS STATEMENT is '.then-able' once all of the restaurants have been added to the database.
-          console.log("about to start allCalls");
-          return Promise.all(allCalls) //HANGING right here... something isn't resolving.
+          return Promise.all(allCalls)
               .then(function(res){
                 console.log('all restaurants added to db! >>>')
                 resolve(res);
               })
-              //function(err){
-              //   consol.log('one or more restaurants were not added. possibly, they were already in the db.');
-              //   reject(res);
-              // }
+
               .catch(function(err){
                 console.error('error with allCalls: ', err);
-                resolve(err); //should technically be reject, but that wasn't working;
+                resolve(err); //should technically be reject
               })
     })
     .catch(function(err){
       console.error("ERROR: Yelp had problems. ", err);
-      resolve();
+      resolve(); //should technically be reject
     })
   })
 }
