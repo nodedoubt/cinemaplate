@@ -1,0 +1,11 @@
+<div id='signup'>
+  <h1>sign-up</h1>
+  <form name="signupForm" ng-submit='signup()'>
+    <input type='text' ng-model='user.username' placeholder="Username" required>
+    <input type="password" ng-model='user.password' placeholder="Password" required>
+    <input type="email" ng-model='user.email' placeholder="Email" required>
+    <input type="location" ng-model='user.location' placeholder="Default Location" required>
+    <button>signup</button>
+  </form>
+  <a href="#/signin">Already have an account? <strong>Signin</strong> ...</a>
+</div>

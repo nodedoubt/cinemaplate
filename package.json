@@ -1,6 +1,6 @@
 {
   "name": "CinemaPlate",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "End dinner and a movie indecision paralysis.",
   "main": "server/index.js",
   "engines": {
@@ -15,17 +15,20 @@
     "angular": "^1.5.0",
     "angular-animate": "^1.5.0",
     "angular-route": "^1.5.0",
+    "bcrypt-as-promised": "^1.1.0",
     "bluebird": "^3.2.2",
     "body-parser": "^1.14.1",
     "browserify-middleware": "^5.0.2",
     "cities": "^1.1.2",
+    "cookie-parser": "^1.4.1",
     "express": "^4.12.4",
     "forever": "^0.15.1",
     "netflix-roulette": "^1.0.2",
     "node-sass-endpoint": "^0.3.0",
     "node-yelp": "0.0.3",
     "pg": "^4.4.4",
-    "request-promise": "^2.0.1"
+    "request-promise": "^2.0.1",
+    "uuid": "^2.0.1"
   },
   "devDependencies": {
     "chai": "^3.4.0",
@@ -35,7 +38,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodedoubt/cinemaplate"
+    "url": "https://github.com/ilikethis/cinemaplate"
   },
   "keywords": [
     "browserify",
@@ -43,7 +46,7 @@
     "angular"
   ],
   "bugs": {
-    "url": "https://github.com/nodedoubt/cinemaplate/issues"
+    "url": "https://github.com/ilikethis/cinemaplate/issues"
   },
   "homepage": "https://cinemaplate.herokuapp.com"
 }
