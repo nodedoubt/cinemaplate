@@ -4,9 +4,10 @@
      When hunger craves a delicious movie experience delivered to your door.
   </p>
   <div class="splash-zip-form">
-    <form name="zipForm" ng-submit="getZip()" novalidate>
-      <input ng-model="zip" ng-pattern="onlyNumbers" ng-minlength="5" ng-maxlength="5" type="text" placeholder="Enter Your Zip&hellip;" id="zip" required></input>
-      <button type="submit" class="button-primary" ng-disabled="zipForm.$invalid">Search</button>
+    <form id="autocomplete" name="zipForm" ng-submit="getZip()" novalidate>
+      <input ng-model="zip" ng-pattern="onlyNumbers" ng-minlength="5" type="text" placeholder={{PlaceHolder}} id="zip" required ng-autocomplete ng-change="dropdown"></input>
+      <!-- <ngAutocomplete /> Why isn't this necessary? We never seem to call our directive?-->
+      <button type="submit" class="button-primary">Search</button>
     </form>
   </div>
 </div>
