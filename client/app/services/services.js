@@ -19,8 +19,24 @@ angular.module('cinePlate.services', [])
     });
   };
 
+  var generateMatch = function (zip) {
+    return $http({
+      method: 'GET',
+      url: '/api/match/' + zip
+    })
+    .then(function (resp) {
+      return resp.data;
+    })
+    .catch(function (err){
+      $location.path('/500');
+      return err
+    });
+  };
+
+
   return {
-    generateMatch: generateMatch
+    generateMatch: generateMatch,
+    generate1stMatch: generate1stMatch
   };
 }])
 
@@ -37,6 +53,7 @@ angular.module('cinePlate.services', [])
     })
     .catch(function(err){
       console.error("There was an error in Signin services ", err)
+      return err.data
     })
   };
 
@@ -50,12 +67,28 @@ angular.module('cinePlate.services', [])
       return resp.data;
     })
     .catch(function(err){
-      console.error("There was an error in Signup services ", err)      
+      console.error("There was an error in Signup services ", err) 
+      return err.data    
     })
   };
 
+  var fetchUser = function(){
+    return $http({
+      method: 'GET',
+      url: '/userCombos'
+    })
+    .then(function(resp){
+      return resp.data;
+    })
+    .catch(function(err){
+      console.error("There was an error ", err)
+      return err.data;
+    })
+  }
+
   return {
     signin: signin,
-    signup: signup
+    signup: signup,
+    fetchUser: fetchUser
   }
 }])

@@ -15,7 +15,7 @@ exports.signin = function(req, res){
   findUser(username).then(function(found){
 
     if (!found.rowCount){
-      res.status(400).send("Username Incorrect")
+      res.status(400).send({error: "Incorrect"})
     } else {
       console.log('found inside signin ', found.rows)
       bcrypt.compare(password, found.rows[0].password)
@@ -23,12 +23,13 @@ exports.signin = function(req, res){
         console.log('result from findUser ', found)
         return sessions.createSession(found.rows[0].user_id)
       })
-      .catch(bcrypt.MISMATCH_ERROR, function(){
-        res.status(400).send("Password Incorrect")
-      })
       .then(function(sessionId){
         res.setHeader('Set-Cookie', 'sessionId=' + sessionId)
         res.status(200).send({success: "User is now logged in", user: found.rows[0]})
+      })
+      .catch(bcrypt.MISMATCH_ERROR, function(){
+        res.status(400).send({error: "Password Incorrect"})
+        return;
       })
     }
   })
@@ -45,7 +46,7 @@ exports.signup = function(req, res){
   findUser(username).then(function(found){
     console.log('found after the then ', found)
   if (found.rowCount){
-    res.status(400).send("Username already exists")
+    res.status(400).send({error: "Username already exists"})
   }
   else {
     bcrypt.hash(password, 10).then(function(hashed){
