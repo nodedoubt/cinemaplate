@@ -29,6 +29,11 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
     controller: 'AuthCtrl'
   })
 
+  .when('/userProfile', {
+    templateUrl: 'app/auth/userProfile.html',
+    controller: 'AuthController'
+  })
+
   .when('/error/500', {
     templateUrl: 'app/error/500.html'
   })
@@ -47,7 +52,7 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
     templateUrl: 'app/splash/splash.html',
     controller: 'SplashCtrl'
   })
-  
+
   // Finally, a catchall route in case the path was not found above.
   .otherwise({
     redirectTo: '/'
