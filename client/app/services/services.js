@@ -4,10 +4,11 @@ angular.module('cinePlate.services', [])
 
 .factory('Matches', ['$http', '$location', function ($http, $location) {
 
-  var generateMatch = function (zip) {
+  var generateMatch = function (zip, data) {
     return $http({
-      method: 'GET',
-      url: '/api/match/' + zip
+      method: 'POST',
+      url: '/api/match/' + zip,
+      data: data
     })
     .then(function (resp) {
       return resp.data;
