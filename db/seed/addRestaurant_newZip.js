@@ -80,8 +80,10 @@ exports.addRestaurants = function(zip){
                 var sqlInsertRestaurants = 'INSERT INTO "restaurants" (restaurant_name,restaurant_description,restaurant_phone, restaurant_street_address, restaurant_city, restaurant_state, restaurant_zip, restaurant_image_url, restaurant_url, restaurant_yelp_rating, restaurant_yelp_id, restaurant_cuisines) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING restaurant_id'
                 
                 var newRestaurants = pgClient.query(sqlInsertRestaurants, [restName, restDescription, restPhone, restStreetAddress, restCity, restState, restZipCode, restImageUrl, restEat24Url, restYelpRating, restYelpId, restCuisines], function (err, result){
-                    if (err){                 
-                      return console.log('error inserting restaurant.', err.message);
+                    if (err){ 
+                      rej(err);  
+                      console.error('error inserting restaurant.', err.message);          
+                      return; 
                     }
                     else {
                       if (result.rows[0].restaurant_id !== undefined){
@@ -90,13 +92,16 @@ exports.addRestaurants = function(zip){
                       console.log("NEW RESTAURANT ID: ", newRestaurantID)
                     }
                   })
-                    //try pushing this to allCalls instead?
                     newRestaurants.on('end', function(result){
-                      //do some console logging?
                       console.log('a new restauarant called .on("end") here >> ', result);
                       res(); //resolve the promise
                       return result;
                     });
+                    newRestaurants.on('error', function(err){
+                      console.log('restaurant query error: ', err);
+                      rej();
+                      return err;
+                    })
                   });
               });
             }
@@ -105,12 +110,25 @@ exports.addRestaurants = function(zip){
             allCalls.push(addOneRestaurant(i));
           }
 
-          //THIS STATEMENT is '.then-able' once all of the restaurants have been added to the database. Currently isn't waiting until promise fulfillment though...
-          return Promise.all(allCalls)
+          //THIS STATEMENT is '.then-able' once all of the restaurants have been added to the database.
+          console.log("about to start allCalls");
+          return Promise.all(allCalls) //HANGING right here... something isn't resolving.
               .then(function(res){
-                console.log('all restaurants added to db? >>>', res)
+                console.log('all restaurants added to db! >>>')
                 resolve(res);
               })
+              //function(err){
+              //   consol.log('one or more restaurants were not added. possibly, they were already in the db.');
+              //   reject(res);
+              // }
+              .catch(function(err){
+                console.error('error with allCalls: ', err);
+                resolve(err); //should technically be reject, but that wasn't working;
+              })
+    })
+    .catch(function(err){
+      console.err("ERROR: Yelp had problems. ", err);
+      reject();
     })
   })
 }
