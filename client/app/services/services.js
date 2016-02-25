@@ -23,3 +23,39 @@ angular.module('cinePlate.services', [])
     generateMatch: generateMatch
   };
 }])
+
+
+.factory('Auth', ['$http', '$location', function ($http, $location){
+  var signin = function(user) {
+    return $http({
+      method: 'POST',
+      url: '/signin',
+      data: user
+    })
+    .then(function(resp){
+
+    })
+    .catch(function(err){
+
+    })
+  };
+
+  var signup = function(user){
+    return $http({
+      method: 'POST',
+      url: '/signup',
+      data: user
+    })
+    .then(function(resp){
+
+    })
+    .catch(function(err){
+      
+    })
+  };
+
+  return {
+    signin: signin,
+    signup: signup
+  }
+}])
