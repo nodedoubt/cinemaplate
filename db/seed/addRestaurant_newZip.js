@@ -26,12 +26,9 @@ var pgClient = new pg.Client(pgConConfig);
 
 exports.addRestaurants = function(zip){
 
-
-
   //ideas to make return:
     //1) 
-
-  return new Promise (function(resolve, reject){
+  return new Promise(function(resolve, reject){
     yelp.getFoodByZip(zip)
       .then(function(data){
           //loop through each restaurant and get restaurant details
@@ -44,32 +41,35 @@ exports.addRestaurants = function(zip){
           //allCalls will be populated with promises...
           var allCalls = [];
 
-          var i;
-          for (i =0;i<data.length;i++){
-            // allCalls.push(
-              resolve((function(){
+          //YOU NEED:
+            //1) resolve() / reject
+            //2) place the for loop in the right place.
+            
+          var addOneRestaurant = function(x){
 
-              var restName = data[i].name
-              var restDescription = data[i].snippet_text
-              var restPhone = data[i].display_phone
-              var restStreetAddress = data[i].location.display_address[0]
-              var restCity = data[i].location.city
-              var restState = data[i].location.state_code
-              var restZipCode = data[i].location.postal_code
-              var restImageUrl = data[i].image_url
-              var restEat24Url = data[i].eat24_url
-              var restYelpRating = data[i].rating
-              var restYelpId = data[i].id
-              var restCuisinesLength = data[i].categories.length
+            return new Promise(function(res, rej){
+
+              var restName = data[x].name
+              var restDescription = data[x].snippet_text
+              var restPhone = data[x].display_phone
+              var restStreetAddress = data[x].location.display_address[0]
+              var restCity = data[x].location.city
+              var restState = data[x].location.state_code
+              var restZipCode = data[x].location.postal_code
+              var restImageUrl = data[x].image_url
+              var restEat24Url = data[x].eat24_url
+              var restYelpRating = data[x].rating
+              var restYelpId = data[x].id
+              var restCuisinesLength = data[x].categories.length
               var restCuisines = ''
               // var newRestaurantID
 
               // push categories into temp array
               for (var j=0;j<restCuisinesLength;j++){
-                restCuisines += (data[i].categories[j][0]) + ', '
+                restCuisines += (data[x].categories[j][0]) + ', '
               }
 
-              console.log(i+1, ">>>", data[i].name)
+              console.log(x+1, ">>>", data[x].name)
               restCuisines = restCuisines.slice(0,-2)
 
               pgClient = new pg.Client(pgConConfig);
@@ -94,18 +94,22 @@ exports.addRestaurants = function(zip){
                     newRestaurants.on('end', function(result){
                       //do some console logging?
                       console.log('a new restauarant called .on("end") here >> ', result);
+                      res(); //resolve the promise
                       return result;
                     });
-                });
-              })(i))
-            // ); //this is the end of the promise that is pushed into 'allCalls'
+                  });
+              });
+            }
+
+          for (var i =0;i<data.length;i++){
+            allCalls.push(addOneRestaurant(i));
           }
 
           //THIS STATEMENT is '.then-able' once all of the restaurants have been added to the database. Currently isn't waiting until promise fulfillment though...
           return Promise.all(allCalls)
               .then(function(res){
                 console.log('all restaurants added to db? >>>', res)
-                return res;
+                resolve(res);
               })
     })
   })
