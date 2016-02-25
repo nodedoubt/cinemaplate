@@ -7,7 +7,7 @@ var pgConConfig = {
 }
 
 
-exports.getOnlyRestaurant = function(req, res){
+exports.getOnlyRestaurants = function(req, res){
   var zip = req.params.zip;
   var slimZip = zip.slice(0,3);
   var result = {};
@@ -26,7 +26,7 @@ exports.getOnlyRestaurant = function(req, res){
   pgClient.connect()
 }
 
-exports.getOnlyMovie = function(req, res){
+exports.getOnlyMovies = function(req, res){
   var pgClient = new pg.Client(pgConConfig);
   var result = {};
   if (req.body.genre){
