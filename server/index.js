@@ -80,10 +80,21 @@ routes.get('/userCombos', function(req, res, next){
 // Match endpoint to match movie genres with cuisines
 //
 routes.post('/api/match/:zip', function(req, res) {
-  if (req.body.type === 'TV') {
-    suggestions.getTVSuggestions(req, res)
+  if (req.body.cycle === 'Restaurant') {
+    suggestions.getOnlyRestaurants(req, res)
+  }
+  else if (req.body.type === 'TV') {
+    if (req.body.cycle === 'TV') {
+      suggestions.getOnlyTv(req, res)
+    } else {
+      suggestions.getTVSuggestions(req, res)
+    }
   } else {
-    suggestions.getMovieSuggestion(req, res)
+    if (req.body.cycle === 'Movie') {
+      suggestions.getOnlyMovies(req, res)
+    } else {
+     suggestions.getMovieSuggestion(req, res)
+   }
   }
 });
 
