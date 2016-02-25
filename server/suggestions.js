@@ -15,7 +15,7 @@ exports.getOnlyRestaurants = function(req, res){
 
   if (req.body.cuisine.length > 0){
     var cuisine = req.body.cuisine;
-    var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' WHERE restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
+    var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' AND restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
     return result;
     });
     restaurantQuery.on('end', function(result) {
@@ -107,7 +107,7 @@ exports.getMovieSuggestion = function(req, res) {
 
     if (req.body.cuisine.length > 0){
       var cuisine = req.body.cuisine;
-      var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' WHERE restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
+      var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' AND restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
       return result;
       });
       restaurantQuery.on('end', function(result) {
@@ -159,7 +159,7 @@ exports.getTVSuggestion = function(req, res) {
   var pgClient = new pg.Client(pgConConfig);
   if (req.body.cuisine.length > 0){
     var cuisine = req.body.cuisine;
-    var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' WHERE restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
+    var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' AND restaurant_cuisines = $1 ORDER BY random() limit 1", [cuisine], function(err, result){
     return result;
     });
     restaurantQuery.on('end', function(result) {
