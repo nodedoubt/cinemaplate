@@ -33,10 +33,10 @@ angular.module('cinePlate.services', [])
       data: user
     })
     .then(function(resp){
-
+      return resp.data;
     })
     .catch(function(err){
-
+      console.error("There was an error in Signin services ", err)
     })
   };
 
@@ -47,10 +47,10 @@ angular.module('cinePlate.services', [])
       data: user
     })
     .then(function(resp){
-
+      return resp.data;
     })
     .catch(function(err){
-      
+      console.error("There was an error in Signup services ", err)      
     })
   };
 

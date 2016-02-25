@@ -1,6 +1,6 @@
 angular.module('cinePlate.auth', [])
 
-.controller('AuthController', function ($scope, $window, $location, Auth) {
+.controller('AuthCtrl', function ($scope, $window, $location, Auth) {
   $scope.user = {
     username: '',
     password: '',
@@ -11,7 +11,8 @@ angular.module('cinePlate.auth', [])
   $scope.signin = function () {
     Auth.signin($scope.user)
     .then(function(resp){
-
+      var location = resp.user.location
+      $location.path('/' + location)
     })
     .catch(function(err){
       console.error('error in signin ', err)
@@ -21,7 +22,7 @@ angular.module('cinePlate.auth', [])
   $scope.signup = function () {
     Auth.signup($scope.user)
     .then(function(resp){
-
+      $location.path('/' + $scope.user.location)
     })
     .catch(function(err){
       console.error('error in signup ', err)
