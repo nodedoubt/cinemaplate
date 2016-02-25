@@ -29,7 +29,7 @@ exports.signin = function(req, res){
       })
       .then(function(sessionId){
         res.setHeader('Set-Cookie', 'sessionId=' + sessionId)
-        res.status(200).send({success: "User is now logged in"})
+        res.status(200).send({success: "User is now logged in", user: found.rows[0]})
       })
     }
   })
