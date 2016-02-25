@@ -18,9 +18,14 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
 
   // The /match route is where the results of a zip code
   // lookup are loaded.
-  .when('/:zip', {
-    templateUrl: 'app/match/match.html',
-    controller: 'MatchCtrl'
+  .when('/signin', {
+    templateUrl: 'app/auth/signin.html',
+    controller: 'SplashCtrl'
+  })
+
+  .when('/signup', {
+    templateUrl: 'app/auth/signup.html',
+    controller: 'SplashCtrl'
   })
 
   .when('/error/500', {
@@ -29,6 +34,11 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
 
   .when('/error/404', {
     templateUrl: 'app/error/404.html'
+  })
+
+  .when('/:zip', {
+  templateUrl: 'app/match/match.html',
+  controller: 'MatchCtrl'
   })
 
   // Load up the splash page so user can enter their zip.
