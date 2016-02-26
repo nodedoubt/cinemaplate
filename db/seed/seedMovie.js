@@ -48,6 +48,7 @@ reddit.getMovies()
           var movieReleaseDate = movieData[k].releaseDate
           var movieGenresArray = movieData[k].genreArray
           var movieGenres = ''
+          var movieApiId = movieData[k].id
           // console.log(movieGenresArray.length)
           if (movieGenresArray.length>0) {
             for (var g=0;g<movieGenresArray.length;g++){
@@ -78,9 +79,9 @@ reddit.getMovies()
 
           var runInsertMovieQuery = function(){
             
-            var sqlInsertMovie = 'INSERT INTO "movies" (movie_title, movie_summary, movie_url, movie_image_url, movie_rating, movie_release_date, movie_genres) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING movie_id'
+            var sqlInsertMovie = 'INSERT INTO "movies" (movie_title, movie_summary, movie_url, movie_image_url, movie_rating, movie_release_date, movie_genres, movie_api_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING movie_id'
             
-            pgClient.query(sqlInsertMovie, [movieTitle, movieSummary, movieUrl, movieImageUrl, movieRating, movieReleaseDate, movieGenres], function (err, result){
+            pgClient.query(sqlInsertMovie, [movieTitle, movieSummary, movieUrl, movieImageUrl, movieRating, movieReleaseDate, movieGenres, movieApiId], function (err, result){
                 if (err){
                   return console.log('error inserting movie', err);
                 }
