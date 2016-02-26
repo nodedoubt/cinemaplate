@@ -11,7 +11,6 @@ var pgConConfig = {
 
 var pgClient = new pg.Client(pgConConfig);
 
-
 pgClient.connect(function(err){
    if (err){
         return console.log('could not connect to postgres', err);
@@ -22,11 +21,8 @@ pgClient.connect(function(err){
   //1) seed ids to db [done]
   //3) get ids from db [done]
   //2) for all ids:
-      //a) query api (with id) for trailer
-      //b) store trailer url in db (SQL UPDATE to the movie entry with the correct movie_api_id)
-
-
-//TODO: slightly refactor .getIds to return a promise - we can use a .then() chain to make sure everything happens in the correct order!
+      //a) query api (with id) for trailer [done]
+      //b) store trailer url in db [done]
 
 trailer.getIds = function(){
   //grab ids for all movies in our db
@@ -53,8 +49,6 @@ trailer.getIds = function(){
   })
 }
 
-
-
 trailer.getMovieDB_trailer = function(movie_api_id){
 
   //query api
@@ -73,7 +67,21 @@ trailer.getMovieDB_trailer = function(movie_api_id){
       console.error('fuck. : ',err);
       reject(err);
     })
-
   })
+}
 
+trailer.storeTrailer = function(trailerUrl, movie_api_id){
+
+  var updateTrailer = "UPDATE movies SET movie_trailer='" + trailerUrl + "' WHERE movie_api_id='" + movie_api_id.toString() + "'";
+  var testTrailer = "UPDATE movies SET movie_trailer='I AM A URL' WHERE movie_api_id='308639'"
+
+  pgClient.query(updateTrailer, function(err, result){
+    if (err){
+      console.error('Fuck. ', err);
+      //reject(err)
+    } else{
+      console.log("a trailer has been added! ", result);
+      //resolve();
+    }
+  })
 }
