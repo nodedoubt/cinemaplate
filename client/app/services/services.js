@@ -63,7 +63,7 @@ angular.module('cinePlate.services', [])
     });
   };
 
-  var saveRestaurant = function() {
+  var saveRestaurant = function(data) {
     return $http({
       method: 'POST',
       url: '/saveRestaurant',
