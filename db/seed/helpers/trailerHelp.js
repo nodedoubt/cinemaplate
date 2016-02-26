@@ -37,11 +37,11 @@ trailer.getIds = function(){
     }
     else {
       console.log(result);
+      //TODO: push all the ids from the api response into "ids" array
     }
   })
 }
 
-trailer.getIds();
 
 
 
