@@ -56,7 +56,20 @@ angular.module('cinePlate.match', [])
     Matches.generateMatch($routeParams.zip, data)
       .then(function (response) {
         console.log(response)
-        $scope.restaurant = response.restaurant;
+        $scope.restaurant = response.restaurant || {restaurant_city: "...",
+                                                    restaurant_cuisines: "...",
+                                                    restaurant_description: "It looks like no restaurants in your area deliver!",
+                                                    restaurant_id: 5,
+                                                    restaurant_image_url: "http://s3-media2.fl.yelpcdn.com/bphoto/VSW1pPtR_XeTPtb2N0kj2A/ms.jpg",
+                                                    restaurant_name: "No delivery",
+                                                    restaurant_phone: "+1-512-891-7200",
+                                                    restaurant_state: "TX",
+                                                    restaurant_street_address: "4970 W Hwy 290",
+                                                    restaurant_url: "http://e24.io/r/33873?utm_campaign=public&utm_medium=yelpapi&utm_source=yelpapi",
+                                                    restaurant_yelp_id: "craig-os-pizza-and-pastaria-austin",
+                                                    restaurant_yelp_rating: "4",
+                                                    restaurant_zip: "78735"
+                                                  };
         $scope.movie = response.movie;
         $scope.contentLoaded = true;
         $scope.isActive = !$scope.isActive;
