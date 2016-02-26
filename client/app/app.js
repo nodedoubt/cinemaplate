@@ -6,10 +6,11 @@ var match = require('./match/match.js');
 var splash = require('./splash/splash.js');
 var services = require('./services/services.js');
 var auth = require('./auth/auth.js');
+var profile = require('./profile/profile.js');
 
 // Instantiate our app instance and add ngRoute as a dependecy via
 // the 'angular-route' npm module. (ngRoute === angular-route)
-angular.module('cinePlate', [require('angular-route'), require('angular-animate'), 'cinePlate.services', 'cinePlate.splash', 'cinePlate.match', 'cinePlate.auth'])
+angular.module('cinePlate', [require('angular-route'), require('angular-animate'), 'cinePlate.services', 'cinePlate.splash', 'cinePlate.match', 'cinePlate.auth', 'cinePlate.profile'])
 
 // Angular routing -- Express handles serving the index.html file
 // and we use Angular's $routeProvider via ngRoute to match urls
@@ -30,8 +31,8 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
   })
 
   .when('/userProfile', {
-    templateUrl: 'app/auth/userProfile.html',
-    controller: 'AuthCtrl'
+    templateUrl: 'app/profile/userProfile.html',
+    controller: 'ProfileCtrl'
   })
 
   .when('/error/500', {

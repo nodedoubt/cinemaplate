@@ -85,6 +85,21 @@ angular.module('cinePlate.services', [])
     })
   };
 
+  var changeStats = function(newStats){
+    return $http({
+      method: 'POST',
+      url: '/alterUserInfo',
+      data: newStats
+    })
+    .then(function(resp){
+      return resp.data;
+    })
+    .catch(function(err){
+      console.error("There was an error ", err)
+      return err.data
+    })
+  }
+
   var signout = function() {
     return $http({
       method: 'GET',
@@ -104,6 +119,7 @@ angular.module('cinePlate.services', [])
     signin: signin,
     signup: signup,
     fetchUser: fetchUser,
+    changeStats: changeStats,
     signout: signout
   }
 }])
@@ -125,11 +141,16 @@ angular.module('cinePlate.services', [])
     $location.path('/')
   };
 
+  var matches = function(zip) {
+    $location.path('/' + zip)
+  }
+
   return {
     profilePage: profilePage,
     signin: signin,
     signup: signup,
-    home: home
+    home: home,
+    matches: matches
   }
 }])
 

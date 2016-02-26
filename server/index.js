@@ -80,7 +80,7 @@ routes.get('/userCombos', function(req, res, next){
 
 routes.post('/alterUserInfo', function(req, res, next){
   if (req.session){
-    User.alterInfo(req, res)
+    User.editUser(req, res)
   } else {
     res.status(401).send({Error: "You do not have permission for this request"})
   }
