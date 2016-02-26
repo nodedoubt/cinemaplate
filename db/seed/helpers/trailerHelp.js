@@ -8,13 +8,7 @@ var pgConConfig = {
   host: "localhost",
   port: 5432
 }
-// if (process.env.NODE_ENV !== 'production') {
-//   // If trying to connect to DB remotely (ie, dev environment)
-//   // we need to add the ssl flag.
-//   pgConString = process.env.DATABASE_URL + '?ssl=true';
-// } else {
-//   pgConString = process.env.DATABASE_URL;
-// }
+
 var pgClient = new pg.Client(pgConConfig);
 
 
@@ -24,25 +18,41 @@ pgClient.connect(function(err){
    }
 })
 
+//Trailers Backend - breakdown:
+  //1) seed ids to db [done]
+  //3) get ids from db [done-ish]
+  //2) for all ids:
+      //a) query api (with id) for trailer
+      //b) store trailer url in db (SQL UPDATE to the movie entry with the correct movie_api_id)
+
+
+//TODO: slightly refactor .getIds to return a promise - we can use a .then() chain to make sure everything happens in the correct order!
 
 trailer.getIds = function(){
   //grab ids for all movies in our db
-  var ids = [];
+  return new Promise(function(resolve, reject){
 
-  var sqlGetApiId = 'SELECT movie_api_id FROM "movies"'
+    var ids = [];
 
-  pgClient.query(sqlGetApiId, function(err, result){
-    if (err){
-      return console.error("error getting movie ids: ", err);
-    }
-    else {
-      console.log(result);
-      //TODO: push all the ids from the api response into "ids" array
-    }
+    var sqlGetApiId = 'SELECT movie_api_id FROM "movies"'
+
+    pgClient.query(sqlGetApiId, function(err, result){
+      if (err){
+        reject();
+        return console.error("error getting movie ids: ", err);
+      }
+      else {
+        var idObjects = result.rows; 
+        //idObjects is an array of objects, which all look like this: {movie_api_id : '12345'}
+        idObjects.forEach(function(x){
+          var newId = parseInt(x['movie_api_id']);
+          ids.push(newId);
+        });
+          resolve(ids);
+      }
+    })
   })
 }
-
-
 
 
 
