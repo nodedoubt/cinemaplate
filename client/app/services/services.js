@@ -141,11 +141,16 @@ angular.module('cinePlate.services', [])
     $location.path('/')
   };
 
+  var matches = function(zip) {
+    $location.path('/' + zip)
+  }
+
   return {
     profilePage: profilePage,
     signin: signin,
     signup: signup,
-    home: home
+    home: home,
+    matches: matches
   }
 }])
 

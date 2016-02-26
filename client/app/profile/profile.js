@@ -33,13 +33,13 @@ angular.module('cinePlate.profile', [])
   $scope.userChoice = {
     page: ''
   };
-  
+
   $scope.navigation = function(){
     console.log("nav has been triggered")
     if ($scope.userChoice.page === 'My Profile'){
       Nav.profilePage()
     } else if ($scope.userChoice.page === 'Home') {
-      Nav.home()
+      Nav.matches($scope.userStats.user[0].location)
     } else if ($scope.userChoice.page === 'Sign In') {
       Nav.signin()
     } else if ($scope.userChoice.page === 'Sign Up') {
