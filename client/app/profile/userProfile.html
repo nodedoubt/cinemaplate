@@ -30,7 +30,7 @@
 
   </form>
   <div class="" style="height: 500px; width: auto; background-color: #555;">
-    <h4>Saved Pairings</h4>
+    <h4 >Saved Pairings</h4>
       <div class="" style="float: left; width: 140px; margin-left: 575px; padding-right: 10px; border-right: 5px solid #f8e71c;">
         <h5>Movie/TV</h5>
         <h6 ng-repeat="o in userStats.combos">
@@ -39,8 +39,8 @@
       </div>
       <div class="" style="float:left; width: 140px; margin-left: 5px;">
         <h5>Restaurant</h5>
-        <h6 ng-repeat="o as o for o in userStats.combos">
-          <a ng-href="{{o.restaurant_url}}">{{o.restaurant_name}}</a>
+        <h6>
+          <a ng-repeat="o in userStats.combos" ng-href="{{o.restaurant_url}}">{{ o.restaurant_name }}<br><br></a>
         </h6>
       </div>
   </div>
