@@ -30,6 +30,27 @@ button, .button {
   font-weight: 700;
 }
 
+.signin-signupbutton {
+  background: white;
+  margin-top: 10px;
+  margin-right: 10px;
+  // float: right;
+  border-radius: 1px;
+}
+
+.homepagebutton {
+  background: white;
+  margin-top: 10px;
+  margin-right: 10px;
+  float: right;
+  border-radius: 1px;
+}
+
+.unlock {
+  color: yellow;
+  display: inline;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-weight: 400;
 }
@@ -49,4 +70,8 @@ a {
   &:hover {
     color: $secondary_accent;
   }
+
+.collapse navbar-collapse {
+  width: 150px;
+}
 }

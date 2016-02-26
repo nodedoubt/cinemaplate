@@ -1,3 +1,9 @@
+
+//THIS FILE IS NO LONGER REQUIRED ON INDEX.JS, as restaurants can now be added
+//dynamically and do not need to be seeded.
+
+
+
 var pg = require('pg');
 var yelp = require('./helpers/yelpHelp');
 
@@ -5,14 +11,19 @@ var yelp = require('./helpers/yelpHelp');
 // Get PG config'd
 //
 var pgConString = '';
-if (process.env.NODE_ENV !== 'production') {
-  // If trying to connect to DB remotely (ie, dev environment)
-  // we need to add the ssl flag.
-  pgConString = process.env.DATABASE_URL + '?ssl=true';
-} else {
-  pgConString = process.env.DATABASE_URL;
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
 }
-var pgClient = new pg.Client(pgConString);
+// if (process.env.NODE_ENV !== 'production') {
+//   // If trying to connect to DB remotely (ie, dev environment)
+//   // we need to add the ssl flag.
+//   pgConString = process.env.DATABASE_URL + '?ssl=true';
+// } else {
+//   pgConString = process.env.DATABASE_URL;
+// }
+var pgClient = new pg.Client(pgConConfig);
 
 //
 // START Restaurant insert
@@ -53,7 +64,7 @@ yelp.getFoodByZip(78749)
         console.log(i+1, ">>>", data[i].name)
         restCuisines = restCuisines.slice(0,-2)
 
-        pgClient = new pg.Client(pgConString);
+        pgClient = new pg.Client(pgConConfig);
         pgClient.connect(function(err){
           if (err){
             return console.log('could not connect to postgres', err);

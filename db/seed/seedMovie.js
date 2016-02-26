@@ -5,15 +5,32 @@ var pg = require('pg');
 //
 // Get PG config'd
 //
-var pgConString = '';
-if (process.env.NODE_ENV !== 'production') {
-  // If trying to connect to DB remotely (ie, dev environment)
-  // we need to add the ssl flag.
-  pgConString = process.env.DATABASE_URL + '?ssl=true';
-} else {
-  pgConString = process.env.DATABASE_URL;
+// var pgConString = '';
+var pgConConfig = {
+  database: "cinemaplate_dev",
+  host: "localhost",
+  port: 5432
 }
-var pgClient = new pg.Client(pgConString);
+// if (process.env.NODE_ENV !== 'production') {
+//   // If trying to connect to DB remotely (ie, dev environment)
+//   // we need to add the ssl flag.
+//   pgConString = process.env.DATABASE_URL + '?ssl=true';
+// } else {
+//   pgConString = process.env.DATABASE_URL;
+// }
+var pgClient = new pg.Client(pgConConfig);
+
+
+pgClient.connect(function(err){
+   if (err){
+        return console.log('could not connect to postgres', err);
+   }
+})
+
+//quick patch for closing postgres connection
+setTimeout(function(){
+  pgClient.end();
+}, 20000)
 
 //
 // START Movie insert
@@ -37,6 +54,7 @@ reddit.getMovies()
           var movieReleaseDate = movieData[k].releaseDate
           var movieGenresArray = movieData[k].genreArray
           var movieGenres = ''
+          var movieApiId = movieData[k].id
           // console.log(movieGenresArray.length)
           if (movieGenresArray.length>0) {
             for (var g=0;g<movieGenresArray.length;g++){
@@ -67,9 +85,9 @@ reddit.getMovies()
 
           var runInsertMovieQuery = function(){
             
-            var sqlInsertMovie = 'INSERT INTO "movies" (movie_title, movie_summary, movie_url, movie_image_url, movie_rating, movie_release_date, movie_genres) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING movie_id'
+            var sqlInsertMovie = 'INSERT INTO "movies" (movie_title, movie_summary, movie_url, movie_image_url, movie_rating, movie_release_date, movie_genres, movie_api_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING movie_id'
             
-            pgClient.query(sqlInsertMovie, [movieTitle, movieSummary, movieUrl, movieImageUrl, movieRating, movieReleaseDate, movieGenres], function (err, result){
+            pgClient.query(sqlInsertMovie, [movieTitle, movieSummary, movieUrl, movieImageUrl, movieRating, movieReleaseDate, movieGenres, movieApiId], function (err, result){
                 if (err){
                   return console.log('error inserting movie', err);
                 }

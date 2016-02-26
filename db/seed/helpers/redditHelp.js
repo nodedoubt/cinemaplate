@@ -9,12 +9,14 @@ reddit.getMovies = function(){
         //reddit objects are uuuuuugly
         var datum = JSON.parse(res);
         
-        return datum.data.children.filter(function(post){
+        var redditObject = datum.data.children.filter(function(post){
             //get rid of self posts & non-US titles - only want links to FREEDOM titles
             return !post.data.is_self && post.data.title.match(/(US)/i) !== null;
         }).map(function(post){
             //this is the object being returned, scrubbed title + scrubbed url 
             return {title: post.data.title.match(/\](.*?)\(/)[1].trim(), url: post.data.url.replace('dvd','www')};
         })
+        console.log(redditObject);
+        return redditObject;
     })
 }
