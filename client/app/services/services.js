@@ -33,7 +33,6 @@ angular.module('cinePlate.services', [])
     });
   };
 
-
   return {
     generateMatch: generateMatch,
     generate1stMatch: generate1stMatch
@@ -89,10 +88,11 @@ angular.module('cinePlate.services', [])
   var signout = function() {
     return $http({
       method: 'GET',
-      ur: 'signout'
+      url: '/signout'
     })
     .then(function(resp){
-      return resp.data
+      console.log("User is signed out")
+      $location.path('/')
     })
     .catch(function(err){
       console.error("There was an error signing out")

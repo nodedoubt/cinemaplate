@@ -55,7 +55,7 @@ exports.findSession = function(sessionId){
   })
 }
 
-exports.deleteSession = function(sessionId) {
+exports.deleteSession = function(sessionId, res) {
   var pgClient = new pg.Client(pgConConfig);
 
   var sqlDelete = "DELETE FROM usersessions WHERE session_id = $1"
@@ -67,7 +67,7 @@ exports.deleteSession = function(sessionId) {
   });
 
   selectSession.on('end', function(result){
-    resolve(result.rows[0])
+    res.status(200).send({Success: "Users is signed out"})
   })
 
   pgClient.on('drain', function() {
