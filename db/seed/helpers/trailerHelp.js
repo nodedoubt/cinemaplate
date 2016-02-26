@@ -58,7 +58,7 @@ trailer.getMovieDB_trailer = function(movie_api_id){
     rp(uri)
     .then(function(res){
       var movie = JSON.parse(res);
-      var trailerKey = movie.videos.results[0].key || QrGrOK8oZG8
+      var trailerKey = movie.videos.results[0] || 'QrGrOK8oZG8'
       var trailerUrl = 'https://www.youtube.com/embed/'+ trailerKey;
       resolve(trailerUrl)
       

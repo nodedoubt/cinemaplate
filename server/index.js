@@ -21,6 +21,10 @@ setTimeout(function(){
   require('../db/seed/seedTv.js');
 }, 20000);
 
+//seeds trailers after 40 seconds. see above!
+setTimeout(function(){
+  require('../db/seed/seedTrailer.js');
+}, 40000);
 
 
 //
