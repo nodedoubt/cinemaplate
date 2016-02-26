@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS "movies" (
   "movie_release_date" DATE,
   "movie_genres" VARCHAR(255),
   "movie_trailer" VARCHAR(255),
+  "movie_api_id" VARCHAR(255),
   CONSTRAINT movies_pk PRIMARY KEY ("movie_id")
 );
 
@@ -33,7 +34,8 @@ CREATE TABLE IF NOT EXISTS "tv" (
   "tv_rating" DECIMAL,
   "tv_release_date" DATE,
   "tv_trailer" VARCHAR(255),
-  "tv_genres" VARCHAR(255)
+  "tv_genres" VARCHAR(255),
+  "tv_api_id" VARCHAR(255)
 );
 
 CREATE TABLE IF NOT EXISTS "restaurants" (
