@@ -5,10 +5,11 @@ var angular = require('angular');
 var match = require('./match/match.js');
 var splash = require('./splash/splash.js');
 var services = require('./services/services.js');
+var auth = require('./auth/auth.js');
 
 // Instantiate our app instance and add ngRoute as a dependecy via
 // the 'angular-route' npm module. (ngRoute === angular-route)
-angular.module('cinePlate', [require('angular-route'), require('angular-animate'), 'cinePlate.services', 'cinePlate.splash', 'cinePlate.match'])
+angular.module('cinePlate', [require('angular-route'), require('angular-animate'), 'cinePlate.services', 'cinePlate.splash', 'cinePlate.match', 'cinePlate.auth'])
 
 // Angular routing -- Express handles serving the index.html file
 // and we use Angular's $routeProvider via ngRoute to match urls
@@ -18,9 +19,19 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
 
   // The /match route is where the results of a zip code
   // lookup are loaded.
-  .when('/:zip', {
-    templateUrl: 'app/match/match.html',
-    controller: 'MatchCtrl'
+  .when('/signin', {
+    templateUrl: 'app/auth/signin.html',
+    controller: 'AuthCtrl'
+  })
+
+  .when('/signup', {
+    templateUrl: 'app/auth/signup.html',
+    controller: 'AuthCtrl'
+  })
+
+  .when('/userProfile', {
+    templateUrl: 'app/auth/userProfile.html',
+    controller: 'AuthCtrl'
   })
 
   .when('/error/500', {
@@ -31,12 +42,17 @@ angular.module('cinePlate', [require('angular-route'), require('angular-animate'
     templateUrl: 'app/error/404.html'
   })
 
+  .when('/:zip', {
+  templateUrl: 'app/match/match.html',
+  controller: 'MatchCtrl'
+  })
+
   // Load up the splash page so user can enter their zip.
   .when('/', {
     templateUrl: 'app/splash/splash.html',
     controller: 'SplashCtrl'
   })
-  
+
   // Finally, a catchall route in case the path was not found above.
   .otherwise({
     redirectTo: '/'
