@@ -43,6 +43,9 @@ angular.module('cinePlate.services', [])
       return resp.data;
     })
     .catch(function (err){
+      if (err.data.Error) {
+        $location.path('/signin')
+      }
       console.log("Error in save movie/tv ", err)
       return
     });    
@@ -58,6 +61,9 @@ angular.module('cinePlate.services', [])
       return resp.data;
     })
     .catch(function (err){
+      if (err.data.Error) {
+        $location.path('/signin')
+      }      
       console.log("Error in save Combo ", err)
       return
     });
@@ -73,6 +79,9 @@ angular.module('cinePlate.services', [])
       return resp.data;
     })
     .catch(function (err){
+      if (err.data.Error) {
+        $location.path('/signin')
+      }      
       console.log("Error in save restaurant ", err)
       return
     });

@@ -145,7 +145,7 @@ angular.module('cinePlate.match', [])
   };
 
   $scope.saveMovie = function(){
-    var data = {type: "", work: $scope.movie}
+    var data = {type: $scope.type, work: $scope.movie}
     Matches.saveWork(data)
     .then(function(resp){
       console.log("work has been saved")
@@ -153,7 +153,7 @@ angular.module('cinePlate.match', [])
   }
 
   $scope.saveCombo = function(){
-    var data = {type: "", work: $scope.movie, restaurant: $scope.restaurant}
+    var data = {type: $scope.type, work: $scope.movie, restaurant: $scope.restaurant}
     Matches.saveCombo(data)
     .then(function(resp){
       console.log("combo has been saved")
