@@ -10,12 +10,12 @@ angular.module('cinePlate.match', [])
   $scope.cuisine = '';
 
   //different types to populate the dropdown menu
-  // $scope.pages = ['My Profile', 'Home', 'Sign In', 'Sign Up', 'Sign out'];
-  // $scope.clicked = false;
+  $scope.pages = ['My Profile', 'Home', 'Sign In', 'Sign Up', 'Sign out'];
+  $scope.clicked = false;
   //create an empty object to store form data
-  // $scope.userChoice = {
-  //   page: ''
-  // };
+  $scope.userChoice = {
+    page: ''
+  };
 
   //navbar dropdown functionality:
   $scope.isActive = function (viewLocation) {
