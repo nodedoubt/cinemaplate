@@ -33,7 +33,6 @@ angular.module('cinePlate.services', [])
     });
   };
 
-
   return {
     generateMatch: generateMatch,
     generate1stMatch: generate1stMatch
@@ -84,11 +83,53 @@ angular.module('cinePlate.services', [])
       console.error("There was an error ", err)
       return err.data;
     })
-  }
+  };
+
+  var signout = function() {
+    return $http({
+      method: 'GET',
+      url: '/signout'
+    })
+    .then(function(resp){
+      console.log("User is signed out")
+      $location.path('/')
+    })
+    .catch(function(err){
+      console.error("There was an error signing out")
+    })
+  };
+
 
   return {
     signin: signin,
     signup: signup,
-    fetchUser: fetchUser
+    fetchUser: fetchUser,
+    signout: signout
   }
 }])
+
+.factory('Nav', ['$http', '$location', function ($http, $location){
+  var profilePage = function() {
+    $location.path('/userProfile')
+  };
+
+  var signin = function() {
+    $location.path('/signin')
+  };
+
+  var signup = function() {
+    $location.path('/signup')
+  };
+
+  var home = function() {
+    $location.path('/')
+  };
+
+  return {
+    profilePage: profilePage,
+    signin: signin,
+    signup: signup,
+    home: home
+  }
+}])
+

@@ -86,6 +86,13 @@ routes.post('/alterUserInfo', function(req, res, next){
   }
   
 })
+
+routes.get('/signout', function(req, res, next){
+    var sessionId = req.session.id
+    console.log('inside signout ', sessionId)
+    // delete module.exports.sessions[sessionId];
+    sessions.deleteSession(sessionId, res)
+})
 //
 // Match endpoint to match movie genres with cuisines
 //

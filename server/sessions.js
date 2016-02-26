@@ -54,3 +54,25 @@ exports.findSession = function(sessionId){
   pgClient.connect()
   })
 }
+
+exports.deleteSession = function(sessionId, res) {
+  var pgClient = new pg.Client(pgConConfig);
+
+  var sqlDelete = "DELETE FROM usersessions WHERE session_id = $1"
+  var selectSession = pgClient.query(sqlDelete, [sessionId], function(err, result){
+    if (err){console.error('error in userSearch ', err)}
+    else {
+      return result;
+    }
+  });
+
+  selectSession.on('end', function(result){
+    res.status(200).send({Success: "Users is signed out"})
+  })
+
+  pgClient.on('drain', function() {
+    pgClient.end();
+  });
+
+  pgClient.connect()
+}

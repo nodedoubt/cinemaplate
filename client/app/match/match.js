@@ -2,7 +2,7 @@
 
 angular.module('cinePlate.match', [])
 
-.controller('MatchCtrl', ['$scope', '$http', '$routeParams', 'Matches', function($scope, $http, $routeParams, Matches) {
+.controller('MatchCtrl', ['$scope', '$http', '$routeParams', 'Matches', 'Nav', 'Auth', function($scope, $http, $routeParams, Matches, Nav, Auth) {
   $scope.contentLoaded = false;
   $scope.type = '';
   $scope.genre = '';
@@ -17,10 +17,27 @@ angular.module('cinePlate.match', [])
     page: ''
   };
 
-  //navbar dropdown functionality:
-  $scope.isActive = function (viewLocation) {
-    return viewLocation === $location.path();
+
+  $scope.navigation = function(){
+    console.log("nav has been triggered")
+    if ($scope.userChoice.page === 'My Profile'){
+      Nav.profilePage()
+    } else if ($scope.userChoice.page === 'Home') {
+      Nav.home()
+    } else if ($scope.userChoice.page === 'Sign In') {
+      Nav.signin()
+    } else if ($scope.userChoice.page === 'Sign Up') {
+      Nav.signup()
+    } else if ($scope.userChoice.page === 'Sign out') {
+      //delete users cookie -- call to backend signout route
+      Auth.signout()
+    }
   }
+
+  //navbar dropdown functionality:
+  // $scope.isActive = function (viewLocation) {
+  //   return viewLocation === $location.path();
+  // }
 
   $scope.stars = [1, 2, 3, 4, 5];
   $scope.movie = { 
@@ -49,7 +66,7 @@ angular.module('cinePlate.match', [])
       });
   };
 
-    $scope.generate1stMatch = function () {
+  $scope.generate1stMatch = function () {
     $scope.contentLoaded = false;
     $scope.isActive = true;
     Matches.generate1stMatch($routeParams.zip)
@@ -64,6 +81,7 @@ angular.module('cinePlate.match', [])
         console.error(error);
       });
   };
+
   $scope.generate1stMatch();
 
 }])
