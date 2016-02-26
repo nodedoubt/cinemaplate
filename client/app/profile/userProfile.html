@@ -1,6 +1,11 @@
 <!-- User Profile -->
 <div id="userProfile" style="margin:0 auto; text-align:center;">
-  <h1 style="background-color:black; color: #ccc;">My Profile</h1>
+  <div class="header" style="background-color:black; color: #ccc;">
+  <h1>My Profile</h1>
+  <select placeholder="Navigtion" class="navbar" ng-model="userChoice.page" ng-options="o as o for o in pages" ng-change="navigation()">
+  <option value="" style="width: 150px">- Nav -</option>
+  </select>
+  </div>
   <form name="profileForm" class="" action="index.html" method="post">
     <img src="http://market.ionic.io/img/user-default.png" alt="" style="height: 200px; width: 200px;" />
 

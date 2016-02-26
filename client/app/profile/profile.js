@@ -26,6 +26,31 @@ angular.module('cinePlate.profile', [])
     $scope.locationClicked = !$scope.locationClicked;
   }
 
+  //different types to populate the dropdown menu
+  $scope.pages = ['My Profile', 'Home', 'Sign In', 'Sign Up', 'Sign out'];
+  $scope.clicked = false;
+  //create an empty object to store form data
+  $scope.userChoice = {
+    page: ''
+  };
+  
+  $scope.navigation = function(){
+    console.log("nav has been triggered")
+    if ($scope.userChoice.page === 'My Profile'){
+      Nav.profilePage()
+    } else if ($scope.userChoice.page === 'Home') {
+      Nav.home()
+    } else if ($scope.userChoice.page === 'Sign In') {
+      Nav.signin()
+    } else if ($scope.userChoice.page === 'Sign Up') {
+      Nav.signup()
+    } else if ($scope.userChoice.page === 'Sign out') {
+      //delete users cookie -- call to backend signout route
+      Auth.signout()
+    }
+  }
+
+
   $scope.fetchUserStats = function(){
     Auth.fetchUser()
     .then(function(resp){
@@ -48,6 +73,9 @@ angular.module('cinePlate.profile', [])
       $scope.fetchUserStats();
     })
   }
+
+
+
 
   $scope.fetchUserStats();
 })
