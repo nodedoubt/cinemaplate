@@ -36,7 +36,6 @@
           <span class="star" ng-repeat="star in stars" ng-class="{selected: restaurant.restaurant_yelp_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
         <h2><a href="{{ restaurant.restaurant_url }} "target="_new">{{ restaurant.restaurant_name }}</a><span ng-show="restaurantUnlocked" class="unlock" ng-click="lockRestaurant()"><i class="fa fa-unlock-alt" style="margin-left: 20px"></i></span><span ng-hide="restaurantUnlocked" class="unlock" ng-click="lockRestaurant()"><i class="fa fa-lock" style="margin-left: 20px"></i></span></h2>
-
         <ul class="header-title-meta">
           <li>{{ restaurant.restaurant_cuisines }}</li>
         </ul>
@@ -86,7 +85,8 @@
             </td>
           </tr>
         </table>
-
+        <button class="savethismoviebutton" ng-click="goToSignin()">Save this movie or show</button>
+          <button class="savematchbutton" ng-click="goToSignin()">Save this combo</button>
       </div>
 
       <div class="one-half column animate-show" ng-show="contentLoaded">
@@ -132,6 +132,7 @@
             </td>
           </tr>
         </table>
+        <button class="savethisrestaurantbutton" ng-click="goToSignin()">Save this restaurant</button>
       </div>
     </div>
   </div>
@@ -139,6 +140,5 @@
     <button class="savethismoviebutton" ng-click="saveMovie()">Save this movie or show</button>
     <button class="savematchbutton" ng-click="saveCombo()">Save this combo</button>
     <button class="savethisrestaurantbutton" ng-click="saveRestaurant()">Save this restaurant</button>
-
   </div>
 </div>
