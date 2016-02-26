@@ -52,12 +52,16 @@ angular.module('cinePlate.match', [])
   }
 
   $scope.lockRestaurant = function(){
-            if ($scope.type === "TV") {
+    if ($scope.type === "TV") {
           $scope.cycle = "TV"
-        } else {
-          $scope.cycle = "Movie"
-          console.log("Lock Movie ", $scope.cycle)
+    } else {
+      $scope.cycle = "Movie"
+    console.log("Lock Movie ", $scope.cycle)
         }
+      if ($scope.movieUnlocked === false) {
+        $scope.movieUnlocked = true;
+      }
+    $scope.restaurantUnlocked = !$scope.restaurantUnlocked
   }
 
 
@@ -74,14 +78,18 @@ angular.module('cinePlate.match', [])
 
   $scope.generateMatch = function () {
     if ($scope.cycle === "Restaurant") {
-      
+      var toKeep = $scope.movie
+    } else if ($scope.cycle === "") {
+      var toKeep = "";
+    } else {
+      var toKeep = $scope.restaurant
     }
-    var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine, keep: }
+    var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine, toKeep: toKeep}
     $scope.contentLoaded = false;
     $scope.isActive = true;
     Matches.generateMatch($routeParams.zip, data)
       .then(function (response) {
-        console.log(response)
+        console.log("whole response object ", response)
         $scope.restaurant = response.restaurant || {restaurant_city: "",
                                                     restaurant_cuisines: "",
                                                     restaurant_description: "It looks like no restaurants in your area deliver! I'm sorry. Here's a picture of a puppy to make you feel better.",
@@ -97,6 +105,7 @@ angular.module('cinePlate.match', [])
                                                     restaurant_zip: ""
                                                   };
         console.log($scope.restaurant);
+        console.log("response.movie ", response.movie)
         $scope.movie = response.movie;
         $scope.contentLoaded = true;
         $scope.isActive = !$scope.isActive;

@@ -11,7 +11,7 @@ var pgConConfig = (process.env.NODE_ENV === 'production') ?  process.env.DATABAS
 exports.getOnlyRestaurants = function(req, res){
   var zip = req.params.zip;
   var slimZip = zip.slice(0,3);
-  var result = {};
+  var toReturn = {};
   var pgClient = new pg.Client(pgConConfig);
 
   if (req.body.cuisine.length > 0){
@@ -20,15 +20,19 @@ exports.getOnlyRestaurants = function(req, res){
     return result;
     });
     restaurantQuery.on('end', function(result) {
-      combinedResult.restaurant = result.rows[0];
+      toReturn.restaurant = result.rows[0];
+      toReturn.movie = req.body.toKeep;
+      res.send(toReturn)
     });
   } else {
     var restaurantQuery = pgClient.query("SELECT * FROM restaurants WHERE restaurant_zip LIKE '" + slimZip + "%' ORDER BY random() limit 1", function(err, result){
       return result;
     })
     restaurantQuery.on('end', function(result){
-      result.restaurant = result.rows[0];
-      res.send(result)
+      console.log("Result in only restaurant ", result)
+      toReturn.restaurant = result.rows[0];
+      toReturn.movie = req.body.toKeep;
+      res.send(toReturn)
     })
   }
 
@@ -40,7 +44,7 @@ exports.getOnlyRestaurants = function(req, res){
 
 exports.getOnlyMovies = function(req, res){
   var pgClient = new pg.Client(pgConConfig);
-  var result = {};
+  var toReturn = {};
   if (req.body.genre.length > 0){
       var genre = req.body.genre;
       var genreSelect = "SELECT * FROM movies WHERE movie_genres = $1 order by random() limit 1"
@@ -48,16 +52,18 @@ exports.getOnlyMovies = function(req, res){
         return result;
       });
       movieQuery.on('end', function(result) {
-        result.movie = result.rows[0];
-        res.send(result)
+        toReturn.movie = result.rows[0];
+        toReturn.restaurant = req.body.toKeep;
+        res.send(toReturn)
       });
     } else {
       var movieQuery = pgClient.query("SELECT * FROM movies order by random() limit 1", function(err, result){
         return result;
       });
       movieQuery.on('end', function(result) {
-        result.movie = result.rows[0];
-        res.send(result)
+        toReturn.movie = result.rows[0];
+        toReturn.restaurant = req.body.toKeep;
+        res.send(toReturn)
       });
     }
    
@@ -70,7 +76,7 @@ exports.getOnlyMovies = function(req, res){
 
 exports.getOnlyTv = function(req, res){
   var pgClient = new pg.Client(pgConConfig);
-  var result = {}; 
+  var toReturn = {}; 
   if (req.body.genre.length > 0){
       var genre = req.body.genre;
       var genreSelect = "SELECT * FROM tv WHERE tv_genres = $1 order by random() limit 1"
@@ -78,16 +84,18 @@ exports.getOnlyTv = function(req, res){
         return result;
       });
       tvQuery.on('end', function(result) {
-        result.tv = result.rows[0];
-        res.send(result)
+        toReturn.movie = result.rows[0];
+        toReturn.restaurant = req.body.toKeep;
+        res.send(toReturn)
       });
     } else {
       var tvQuery = pgClient.query("SELECT * FROM tv order by random() limit 1", function(err, result){
         return result;
       });
       tvQuery.on('end', function(result) {
-        result.tv = result.rows[0];
-        res.send(result)
+        toReturn.movie = result.rows[0];
+        toReturn.restaurant = req.body.toKeep;
+        res.send(toReturn)
       });
     }
    
@@ -182,7 +190,7 @@ exports.getTVSuggestion = function(req, res) {
         return result;
       });
       tvQuery.on('end', function(result) {
-        combinedResult.tv = result.rows[0];
+        combinedResult.movie = result.rows[0];
         res.send(combinedResult)
       });
     } else {
@@ -190,7 +198,7 @@ exports.getTVSuggestion = function(req, res) {
         return result;
       });
       tvQuery.on('end', function(result) {
-        combinedResult.tv = result.rows[0];
+        combinedResult.movie = result.rows[0];
         res.send(combinedResult)
       });
     }
