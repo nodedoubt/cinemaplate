@@ -28,14 +28,14 @@
     <h4>Saved Pairings</h4>
       <div class="" style="float: left; width: 140px; margin-left: 575px; padding-right: 10px; border-right: 5px solid #f8e71c;">
         <h5>Movie/TV</h5>
-        <h6 ng-repeat="o as o for o in userStats.combos">
-          {{}}
+        <h6 ng-repeat="o in userStats.combos">
+          <a ng-href="{{o.movie_url}}">{{o.movie_title}}</a> <a ng-href="{{o.tv_url}}">{{o.tv_title}}</a>
         </h6>
       </div>
       <div class="" style="float:left; width: 140px; margin-left: 5px;">
         <h5>Restaurant</h5>
         <h6 ng-repeat="o as o for o in userStats.combos">
-          {{}}
+          <a ng-href="{{o.restaurant_url}}">{{o.restaurant_name}}</a>
         </h6>
       </div>
   </div>
