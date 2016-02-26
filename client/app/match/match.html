@@ -24,10 +24,10 @@
         <div class="star-rating">
           <span class="star" ng-repeat="star in stars" ng-class="{selected: movie.movie_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
-        <h2><a href="{{ movie.movie_url }}" target="_new">{{ movie.movie_title }}</a></h2>
+        <h2><a href="{{ movie.movie_url }}" target="_new">{{ movie.movie_title }} {{ movie.tv_title }}</a></h2>
         <i class="fa fa-unlock-alt"></i>
         <ul class="header-title-meta">
-          <li>{{ movie.movie_genres }}</li>
+          <li>{{ movie.movie_genres }} {{ movie.tv_genres }}</li>
         </ul>
       </div>
 
@@ -47,13 +47,14 @@
     <div class="row">
       <div class="one-half column animate-show" ng-show="contentLoaded">
         <div class="cta">
-          <a href="{{ movie.movie_url }}" target="_new" class="button"><i class="fa fa-film"></i>Watch On Netflix</a>
+          <a ng-hide="movie.movie_url" href="{{ movie.movie_url }}" target="_new" class="button"><a ng-hide="movie.tv_url" href="{{ movie.tv_url }}" target="_new" class="button"><i class="fa fa-film"></i>Watch On Netflix</a></a>
         </div>
         <!-- Movie Mini Description-->  
         <div class="summary-wrapper u-cf">
-          <img src="{{ movie.movie_image_url }}" />
+          <img src="{{ movie.movie_image_url }}" ng-show="movie.movie_image_url"/>
+          <img src="{{ movie.tv_image_url }}" ng-show="movie.tv_image_url"/>
           <p class="summary fade">
-            {{ movie.movie_summary }}
+            {{ movie.movie_summary }} {{ movie.tv_summary }}
           </p>
         </div>
 
@@ -63,7 +64,7 @@
               <strong>Release Date</strong>
             </td>
             <td>
-              {{ movie.movie_release_date | date:'MMM d, yyyy' }}
+              {{ movie.movie_release_date | date:'MMM d, yyyy' }} {{ movie.tv_release_date | date:'MMM d, yyyy' }}
             </td>
           </tr>
           <tr>
@@ -71,7 +72,7 @@
               <strong>Genre</strong>
             </td>
             <td>
-              {{ movie.movie_genres }}
+              {{ movie.movie_genres }} {{ movie.tv_genres }}
             </td>
           </tr>
           <tr>
@@ -79,7 +80,7 @@
               <strong>Rating</strong>
             </td>
             <td>
-              {{ movie.movie_rating }}
+              {{ movie.movie_rating }} {{ movie.tv_rating }}
             </td>
           </tr>
         </table>
@@ -133,9 +134,9 @@
     </div>
   </div>
   <div>
-    <button class="savethismoviebutton" ng-click="goToSignin()">Save this movie or show</button>
-    <button class="savematchbutton" ng-click="goToSignin()">Save this combo</button>
-    <button class="savethisrestaurantbutton" ng-click="goToSignin()">Save this restaurant</button>
+    <button class="savethismoviebutton" ng-click="saveMovie()">Save this movie or show</button>
+    <button class="savematchbutton" ng-click="saveCombo()">Save this combo</button>
+    <button class="savethisrestaurantbutton" ng-click="saveRestaurant()">Save this restaurant</button>
 
   </div>
 </div>

@@ -109,6 +109,30 @@ angular.module('cinePlate.match', [])
       });
   };
 
+  $scope.saveMovie = function(){
+    var data = {type: "", work: $scope.movie}
+    Matches.saveWork(data)
+    .then(function(resp){
+      console.log("work has been saved")
+    })
+  }
+
+  $scope.saveCombo = function(){
+    var data = {type: "", work: $scope.movie, restaurant: $scope.restaurant}
+    Matches.saveCombo(data)
+    .then(function(resp){
+      console.log("combo has been saved")
+    })
+  }
+
+  $scope.saveRestaurant = function(){
+    var data = {restaurant: $scope.restaurant}
+    Matches.saveRestaurant(data)
+    .then(function(resp){
+      console.log("restaurant has been saved")
+    })
+  }
+
   $scope.generate1stMatch();
 
 }])

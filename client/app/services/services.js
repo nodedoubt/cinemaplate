@@ -33,9 +33,57 @@ angular.module('cinePlate.services', [])
     });
   };
 
+  var saveWork = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/saveWork',
+      data: data
+    })
+    .then(function (resp) {
+      return resp.data;
+    })
+    .catch(function (err){
+      console.log("Error in save movie/tv ", err)
+      return
+    });    
+  };
+
+  var saveCombo = function(data) {
+    return $http({
+      method: 'POST',
+      url: '/saveCombo',
+      data: data
+    })
+    .then(function (resp) {
+      return resp.data;
+    })
+    .catch(function (err){
+      console.log("Error in save Combo ", err)
+      return
+    });
+  };
+
+  var saveRestaurant = function() {
+    return $http({
+      method: 'POST',
+      url: '/saveRestaurant',
+      data: data
+    })
+    .then(function (resp) {
+      return resp.data;
+    })
+    .catch(function (err){
+      console.log("Error in save restaurant ", err)
+      return
+    });
+  };
+
   return {
     generateMatch: generateMatch,
-    generate1stMatch: generate1stMatch
+    generate1stMatch: generate1stMatch,
+    saveRestaurant: saveRestaurant,
+    saveCombo: saveCombo,
+    saveWork: saveWork
   };
 }])
 
@@ -153,4 +201,3 @@ angular.module('cinePlate.services', [])
     matches: matches
   }
 }])
-

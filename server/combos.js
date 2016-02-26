@@ -57,7 +57,7 @@ exports.saveRestaurant = function(req, res){
   })
 
   insertRestaurant.on('end', function(result){
-    res.status(201).send(result.rows);
+    res.status(201).send(result.rows[0]);
   })
   pgClient.on('drain', function() {
     pgClient.end();
@@ -86,9 +86,8 @@ exports.saveCombo = function(req, res){
       return result
     }
   })
-
   insertCombo.on('end', function(result){
-    res.status(201).send(result.rows);
+    res.status(201).send(result.rows[0]);
   })
 
   pgClient.on('drain', function() {
