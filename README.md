@@ -1,12 +1,17 @@
 # CinemaPlate
 
-[![Stories in Ready](https://badge.waffle.io/nodedoubt/cinemaplate.png?label=ready&title=Ready)](http://waffle.io/nodedoubt/cinemaplate)
-[![Build Status](https://travis-ci.org/nodedoubt/cinemaplate.svg?branch=master)](https://travis-ci.org/nodedoubt/cinemaplate)
+[![Stories in Ready](https://badge.waffle.io/travel-consensus/cinemaplate.svg?label=ready&title=Ready)](http://waffle.io/travel-consensus/cinemaplate)
+[![Stories in Progress](https://badge.waffle.io/travel-consensus/cinemaplate.svg?label=in%20progress&title=In%20Progress)](http://waffle.io/travel-consensus/cinemaplate)
+[![Build Status](https://travis-ci.org/travel-consensus/cinemaplate.svg?branch=master)](https://travis-ci.org/travel-consensus/cinemaplate)
 
 ## Getting Started
 
     $ npm install
     $ npm start
+    
+### Local Development (DB)
+
+Follow full instructions in db/db_setup.js.
 
 ## Tests
 

@@ -6,7 +6,10 @@
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <title>CinemaPlate</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+  <script src="/jquery.min.js"></script>
   <script src="/app-bundle.js"></script>
+  <script src="http://fgnass.github.io/spin.js/spin.js"></script>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700,300' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/app-bundle.css" />
@@ -20,5 +23,25 @@
   <div class="wrapper">
     <div ng-view></div>
   </div>
+<script>
+  $(document).ready(function() {
+    $(".iframe").fancybox({
+        type: 'iframe'
+    });
+    $(".float-image").fancybox({
+        autoSize: true
+    });
+  });
+
+  $(document).ready(function() {
+    $('.fancybox-media').fancybox({
+      openEffect  : 'none',
+      closeEffect : 'none',
+      helpers : {
+        media : {}
+      }
+    });
+  });
+</script>
 </body>
 </html>
