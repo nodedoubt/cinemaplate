@@ -25,6 +25,7 @@
           <span class="star" ng-repeat="star in stars" ng-class="{selected: movie.movie_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
         <h2><a href="{{ movie.movie_url }}" target="_new">{{ movie.movie_title }}</a></h2>
+        <i class="fa fa-unlock-alt"></i>
         <ul class="header-title-meta">
           <li>{{ movie.movie_genres }}</li>
         </ul>
@@ -130,5 +131,11 @@
         </table>
       </div>
     </div>
+  </div>
+  <div>
+    <button class="savethismoviebutton" ng-click="goToSignin()">Save this movie or show</button>
+    <button class="savematchbutton" ng-click="goToSignin()">Save this combo</button>
+    <button class="savethisrestaurantbutton" ng-click="goToSignin()">Save this restaurant</button>
+
   </div>
 </div>
