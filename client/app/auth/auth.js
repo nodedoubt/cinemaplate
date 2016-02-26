@@ -43,14 +43,4 @@ angular.module('cinePlate.auth', [])
     })
   };
 
-  $scope.fetchUserStats = function(){
-    Auth.fetchUser()
-    .then(function(resp){
-      $scope.userStats = resp;
-    })
-    .catch(function(resp){
-      console.error('Can not fetch User data. Are you logged in?')
-      console.error('Error in fetch user data ', err)
-    })
-  }
 });

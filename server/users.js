@@ -78,7 +78,8 @@ exports.editUser = function(req, res){
   var password = req.body.password;
   var location = req.body.location;
   var email = req.body.email;
-  var userId = req.session.userId
+  var userId = req.session.user_id
+  var pgClient = new pg.Client(pgConConfig);
 
   if (password.length > 0){
     bcrypt.hash(password, 10).then(function(hashed){
@@ -101,7 +102,7 @@ exports.editUser = function(req, res){
       res.status(201).send({confirm: "User updated", user: result})
     })
   } else {
-    var sqlEmailUpdate = "UPDATE TABLE users ALTER COLUMN email WHERE"
+    var sqlEmailUpdate = "UPDATE users SET email = $1 WHERE user_id = $2"
     var updateEmail = pgClient.query(sqlEmailUpdate, [email, userId])
     updateEmail.on('end', function(result){
       console.log('returned from update email ', result)

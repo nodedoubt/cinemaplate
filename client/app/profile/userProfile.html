@@ -1,0 +1,44 @@
+<!-- User Profile -->
+<div id="userProfile" style="margin:0 auto; text-align:center;">
+  <h1 style="background-color:black; color: #ccc;">My Profile</h1>
+  <form name="profileForm" class="" action="index.html" method="post">
+    <img src="http://market.ionic.io/img/user-default.png" alt="" style="height: 200px; width: 200px;" />
+
+    <h4 class="setting"><span style="margin-right: 30px;">Username </span>{{userStats.user[0].username}}</h4>
+
+    <h4 class="setting"><span>Password <i class="fa fa-pencil-square-o" alt="*Edit*" style="margin-right: 30px;" ng-click="showPass()"></i></span>********</h4>
+    <!-- input box to change password -->
+    <form ng-submit="changeStats()">
+    <input ng-show="passClicked" type="password" ng-model='user.password' placeholder="New Password" required>
+    </form>
+    
+    <h4 class="setting"><span>E-mail Address <i class="fa fa-pencil-square-o" alt="*Edit*" style="margin-right: 30px;" ng-click="showEmail()"></i></span>{{userStats.user[0].email}}</h4>
+    <!-- input box to change email -->
+    <form ng-submit="changeStats()">
+    <input ng-show="emailClicked" type="text" ng-model='user.email' placeholder="New Email" required>
+    </form>
+    <h4 class="setting"><span>Location <i class="fa fa-pencil-square-o" alt="*Edit*" style="margin-right: 30px;" ng-click="showLocation()"></i></span>{{userStats.user[0].location}}</h4>
+    <!-- input box to change location -->
+    <form ng-submit="changeStats()">
+    <input ng-show="locationClicked" type="text" ng-model='user.location' placeholder="New Default Location" required>
+    </form>
+
+  </form>
+  <div class="" style="height: 500px; width: auto; background-color: #555;">
+    <h4>Saved Pairings</h4>
+      <div class="" style="float: left; width: 140px; margin-left: 575px; padding-right: 10px; border-right: 5px solid #f8e71c;">
+        <h5>Movie/TV</h5>
+        <h6 ng-repeat="o as o for o in userStats.combos">
+          {{}}
+        </h6>
+      </div>
+      <div class="" style="float:left; width: 140px; margin-left: 5px;">
+        <h5>Restaurant</h5>
+        <h6 ng-repeat="o as o for o in userStats.combos">
+          {{}}
+        </h6>
+      </div>
+  </div>
+</div>
+
+ng-hide=""
