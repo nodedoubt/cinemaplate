@@ -24,7 +24,7 @@
         <div class="star-rating">
           <span class="star" ng-repeat="star in stars" ng-class="{selected: movie.movie_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
-        <h2><a href="{{ movie.movie_url }}" target="_new">{{ movie.movie_title }} {{ movie.tv_title }}</a></h2>
+        <h2><a href="{{ movie.movie_url }}" target="_new">{{ movie.movie_title }} {{ movie.tv_title }}</a><span ng-show="movieUnlocked" class="unlock" ng-click="lockMovie()"><i class="fa fa-unlock-alt" style="margin-left: 20px"></i></span><span ng-hide="movieUnlocked" class="unlock" ng-click="lockMovie()"><i class="fa fa-lock" style="margin-left: 20px"></i></span></h2>
         <i class="fa fa-unlock-alt"></i>
         <ul class="header-title-meta">
           <li>{{ movie.movie_genres }} {{ movie.tv_genres }}</li>
@@ -35,7 +35,8 @@
         <div class="star-rating">
           <span class="star" ng-repeat="star in stars" ng-class="{selected: restaurant.restaurant_yelp_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
-        <h2><a href="{{ restaurant.restaurant_url }} "target="_new">{{ restaurant.restaurant_name }}</a></h2>
+        <h2><a href="{{ restaurant.restaurant_url }} "target="_new">{{ restaurant.restaurant_name }}</a><span ng-show="restaurantUnlocked" class="unlock"><i class="fa fa-unlock-alt" style="margin-left: 20px"></i></span><span ng-hide="restaurantUnlocked" class="unlock"><i class="fa fa-lock" style="margin-left: 20px"></i></span></h2>
+
         <ul class="header-title-meta">
           <li>{{ restaurant.restaurant_cuisines }}</li>
         </ul>
