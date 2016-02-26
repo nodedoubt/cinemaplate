@@ -4,7 +4,7 @@ angular.module('cinePlate.match', [])
 
 .controller('MatchCtrl', ['$scope', '$http', '$routeParams', 'Matches', 'Nav', 'Auth', function($scope, $http, $routeParams, Matches, Nav, Auth) {
   $scope.contentLoaded = false;
-  $scope.type = '';
+  $scope.type = 'Movie';
   $scope.genre = '';
   $scope.cycle = '';
   $scope.cuisine = '';
@@ -34,10 +34,33 @@ angular.module('cinePlate.match', [])
     }
   }
 
-  //navbar dropdown functionality:
-  // $scope.isActive = function (viewLocation) {
-  //   return viewLocation === $location.path();
-  // }
+  $scope.movieUnlocked = true;
+  $scope.restaurantUnlocked = true;
+
+  $scope.lockMovie = function(){
+    if ($scope.movieUnlocked === true) {
+      $scope.cycle = "Restaurant";
+    } else {
+      $scope.cycle = "";
+    }
+
+    if ($scope.restaurantUnlocked === false) {
+      $scope.restaurantUnlocked = true;
+    }
+  $scope.movieUnlocked = !$scope.movieUnlocked
+
+  }
+
+  $scope.lockRestaurant = function(){
+            if ($scope.type === "TV") {
+          $scope.cycle = "TV"
+        } else {
+          $scope.cycle = "Movie"
+          console.log("Lock Movie ", $scope.cycle)
+        }
+  }
+
+
 
   $scope.stars = [1, 2, 3, 4, 5];
   $scope.movie = { 
@@ -50,7 +73,10 @@ angular.module('cinePlate.match', [])
   $scope.movie = {};
 
   $scope.generateMatch = function () {
-    var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine}
+    if ($scope.cycle === "Restaurant") {
+      
+    }
+    var data = {type: $scope.type, genre: $scope.genre, cycle: $scope.cycle, cuisine: $scope.cuisine, keep: }
     $scope.contentLoaded = false;
     $scope.isActive = true;
     Matches.generateMatch($routeParams.zip, data)
