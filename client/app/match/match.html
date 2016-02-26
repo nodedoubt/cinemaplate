@@ -34,7 +34,7 @@
         <div class="star-rating">
           <span class="star" ng-repeat="star in stars" ng-class="{selected: restaurant.restaurant_yelp_rating > $index}"><i class="fa fa-star"></i></span>
         </div>
-        <h2><a href="{{ restaurant.restaurant_url }} "target="_new">{{ restaurant.restaurant_name }} || NOPE</a></h2>
+        <h2><a href="{{ restaurant.restaurant_url }} "target="_new">{{ restaurant.restaurant_name }}</a></h2>
         <ul class="header-title-meta">
           <li>{{ restaurant.restaurant_cuisines }}</li>
         </ul>

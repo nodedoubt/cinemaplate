@@ -56,20 +56,21 @@ angular.module('cinePlate.match', [])
     Matches.generateMatch($routeParams.zip, data)
       .then(function (response) {
         console.log(response)
-        $scope.restaurant = response.restaurant || {restaurant_city: "...",
-                                                    restaurant_cuisines: "...",
-                                                    restaurant_description: "It looks like no restaurants in your area deliver!",
-                                                    restaurant_id: 5,
-                                                    restaurant_image_url: "http://s3-media2.fl.yelpcdn.com/bphoto/VSW1pPtR_XeTPtb2N0kj2A/ms.jpg",
-                                                    restaurant_name: "No delivery",
-                                                    restaurant_phone: "+1-512-891-7200",
-                                                    restaurant_state: "TX",
-                                                    restaurant_street_address: "4970 W Hwy 290",
-                                                    restaurant_url: "http://e24.io/r/33873?utm_campaign=public&utm_medium=yelpapi&utm_source=yelpapi",
-                                                    restaurant_yelp_id: "craig-os-pizza-and-pastaria-austin",
-                                                    restaurant_yelp_rating: "4",
-                                                    restaurant_zip: "78735"
+        $scope.restaurant = response.restaurant || {restaurant_city: "",
+                                                    restaurant_cuisines: "",
+                                                    restaurant_description: "It looks like no restaurants in your area deliver! I'm sorry. Here's a picture of a puppy to make you feel better.",
+                                                    restaurant_id: undefined,
+                                                    restaurant_image_url: "http://i1074.photobucket.com/albums/w404/natalieweb/Screen%20Shot%202016-02-26%20at%2011.05.08%20AM_zpsshaezdgy.png",
+                                                    restaurant_name: "No delivery here",
+                                                    restaurant_phone: "",
+                                                    restaurant_state: "",
+                                                    restaurant_street_address: "",
+                                                    restaurant_url: "",
+                                                    restaurant_yelp_id: "",
+                                                    restaurant_yelp_rating: "",
+                                                    restaurant_zip: ""
                                                   };
+        console.log($scope.restaurant);
         $scope.movie = response.movie;
         $scope.contentLoaded = true;
         $scope.isActive = !$scope.isActive;
@@ -85,7 +86,20 @@ angular.module('cinePlate.match', [])
     Matches.generate1stMatch($routeParams.zip)
       .then(function (response) {
         console.log(response)
-        $scope.restaurant = response.restaurant;
+        $scope.restaurant = response.restaurant || {restaurant_city: "",
+                                                    restaurant_cuisines: "",
+                                                    restaurant_description: "It looks like no restaurants in your area deliver! I'm sorry. Here's a picture of a puppy to make you feel better.",
+                                                    restaurant_id: undefined,
+                                                    restaurant_image_url: "http://i1074.photobucket.com/albums/w404/natalieweb/Screen%20Shot%202016-02-26%20at%2011.05.08%20AM_zpsshaezdgy.png",
+                                                    restaurant_name: "No delivery here",
+                                                    restaurant_phone: "",
+                                                    restaurant_state: "",
+                                                    restaurant_street_address: "",
+                                                    restaurant_url: "",
+                                                    restaurant_yelp_id: "",
+                                                    restaurant_yelp_rating: "",
+                                                    restaurant_zip: ""
+                                                  };
         $scope.movie = response.movie;
         $scope.contentLoaded = true;
         $scope.isActive = !$scope.isActive;
