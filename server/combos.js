@@ -48,7 +48,7 @@ exports.saveRestaurant = function(req, res){
   var restaurantId = req.body.restaurant.restaurant_id;
   var sqlInsert = "INSERT INTO usercombos (user_id, restaurant_id) VALUES ($1, $2) RETURNING *"
 
-  var insertRestaurant = pgCLient.query(sqlInsert, [userId, restaurantId], function(err, result){
+  var insertRestaurant = pgClient.query(sqlInsert, [userId, restaurantId], function(err, result){
     if (err){
       console.error("Error inserting restaurant into usercombos ", err);
     } else {
